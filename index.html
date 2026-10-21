@@ -11,10 +11,13 @@
     <!-- AOS Animation CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Tailwind Configuration -->
     <script>
@@ -22,16 +25,18 @@
             theme: {
                 extend: {
                     colors: {
-                        navy: { DEFAULT: '#1b365d', light: '#2a4a7a', dark: '#0f1f35' },
-                        gold: { DEFAULT: '#c5a059', light: '#e0c48f', dark: '#a68345' },
-                        offwhite: '#f4f5f7'
+                        /* Replaced Navy with Logo Burgundy/Plum */
+                        navy: { DEFAULT: '#2E0515', light: '#4A0A24', dark: '#1A020A' },
+                        /* Replaced Gold with Logo Pink/Magenta */
+                        gold: { DEFAULT: '#D91A5B', light: '#F0427E', dark: '#A60B40' },
+                        offwhite: '#F9F9F9'
                     },
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
                         serif: ['Cormorant Garamond', 'serif'],
                     },
                     backgroundImage: {
-                        'hero': "linear-gradient(to right, rgba(15, 31, 53, 0.95), rgba(15, 31, 53, 0.6)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=80')",
+                        'hero': "linear-gradient(to right, rgba(26, 2, 10, 0.95), rgba(26, 2, 10, 0.6)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=80')",
                         'texture': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')"
                     }
                 }
@@ -41,599 +46,828 @@
     
     <style>
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f4f5f7; }
-        ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #1b365d; }
-        .glass-nav { background: rgba(27, 54, 93, 0.9); backdrop-filter: blur(12px); }
-        .gold-text-gradient { background: linear-gradient(to right, #c5a059, #f8e7c1, #c5a059); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .amenity-card:hover .amenity-icon { transform: scale(1.1) translateY(-5px); color: #c5a059; }
+        ::-webkit-scrollbar-track { background: #F9F9F9; }
+        ::-webkit-scrollbar-thumb { background: #D91A5B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2E0515; }
+        .glass-nav { background: rgba(46, 5, 21, 0.9); backdrop-filter: blur(12px); }
+        .gold-text-gradient { background: linear-gradient(to right, #D91A5B, #F0427E, #D91A5B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .amenity-card:hover .amenity-icon { transform: scale(1.1) translateY(-5px); color: #D91A5B; }
 
-        html, body{
-            overflow-x: hidden;
+        html, body { overflow-x: hidden; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(26, 2, 10, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            padding: 1rem; overflow-y: auto;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-box {
+            transform: scale(0.92) translateY(30px);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-box { transform: scale(1) translateY(0); }
+
+        .premium-input {
+            background: transparent; border: none;
+            border-bottom: 1px solid rgba(217,26,91,0.3);
+            padding: 0.45rem 0; font-size: 0.8rem; color: #2E0515;
+            transition: border-color 0.3s ease; width: 100%; outline: none;
+        }
+        .premium-input::placeholder { color: #a8a29e; font-weight: 300; font-size: 0.75rem; }
+        .premium-input:focus { border-bottom-color: #D91A5B; }
+        .premium-select {
+            background: transparent; border: none;
+            border-bottom: 1px solid rgba(217,26,91,0.3);
+            padding: 0.45rem 0; font-size: 0.8rem; color: #2E0515;
+            width: 100%; outline: none; appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23D91A5B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0 center; background-size: 10px;
+            cursor: pointer;
+        }
+        .premium-select:focus { border-bottom-color: #D91A5B; }
+        .premium-label {
+            display: block; font-size: 0.55rem; text-transform: uppercase;
+            letter-spacing: 0.18em; color: #D91A5B; font-weight: 600; margin-bottom: 0.1rem;
+        }
+        .btn-gold-shimmer { position: relative; overflow: hidden; }
+        .btn-gold-shimmer::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg) translateX(-100%); transition: transform 0.8s ease;
+        }
+        .btn-gold-shimmer:hover::after { transform: rotate(45deg) translateX(100%); }
+        .popup-texture { background-image: radial-gradient(circle at 1px 1px, rgba(217,26,91,0.06) 1px, transparent 0); background-size: 20px 20px; }
+
+        /* Mobile bottom ribbon */
+        .mobile-ribbon { display: none; }
+        @media (max-width: 767px) {
+            .mobile-ribbon {
+                display: flex; position: fixed; bottom: 0; left: 0; right: 0;
+                z-index: 900; background: #1A020A; border-top: 2px solid #D91A5B;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            }
+            body { padding-bottom: 64px; }
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(1); }
+            50% { opacity: 0.6; transform: translateY(-50%) scale(1.1); }
+        }
+        .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+        .particle {
+            position: absolute; background: radial-gradient(circle, #F0427E, #D91A5B);
+            border-radius: 50%; opacity: 0.4; filter: blur(0.5px);
+            animation: float-particle linear infinite;
+        }
+        .particle-1 { width: 4px; height: 4px; left: 10%; top: 80%; animation-duration: 12s; animation-delay: 0s; }
+        .particle-2 { width: 3px; height: 3px; left: 25%; top: 60%; animation-duration: 15s; animation-delay: 2s; }
+        .particle-3 { width: 5px; height: 5px; left: 40%; top: 90%; animation-duration: 18s; animation-delay: 4s; }
+        .particle-4 { width: 2px; height: 2px; left: 55%; top: 70%; animation-duration: 10s; animation-delay: 1s; }
+        .particle-5 { width: 4px; height: 4px; left: 70%; top: 85%; animation-duration: 14s; animation-delay: 3s; }
+        .particle-6 { width: 3px; height: 3px; left: 85%; top: 65%; animation-duration: 16s; animation-delay: 5s; }
+        .particle-7 { width: 5px; height: 5px; left: 15%; top: 40%; animation-duration: 20s; animation-delay: 6s; }
+        .particle-8 { width: 2px; height: 2px; left: 60%; top: 30%; animation-duration: 11s; animation-delay: 2.5s; }
+        @keyframes float-particle {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translateY(-150px) translateX(30px) scale(1.2); opacity: 0.8; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-300px) translateX(-20px) scale(0.8); opacity: 0; }
+        }
+
+        .gallery-slide.active img { transform: scale(1.05); }
+        .thumbnail.border-gold, .thumbnail-mobile.border-gold {
+            border-color: #D91A5B !important;
+            box-shadow: 0 0 15px rgba(217, 26, 91, 0.4);
+        }
+        .gallery-slide img { transition: transform 8s linear; }
+        .slide-content { animation: fadeInContent 0.6s ease-in-out; }
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-offwhite antialiased overflow-x-hidden selection:bg-gold selection:text-navy-dark">
+<body class="font-sans text-gray-800 bg-offwhite antialiased overflow-x-hidden selection:bg-gold selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-500 glass-nav border-b border-white/10" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20 md:h-24">
-                
-                <!-- Logo Area -->
-                <div class="flex-shrink-0 flex items-center gap-3 md:gap-4 cursor-pointer">
-                    <!-- REPLACE THE SRC BELOW WITH YOUR ACTUAL LOGO URL OR FILE PATH -->
-                    <img src="/images/godrej_logo.png" alt="Godrej Altus Logo" class="h-10 md:h-14 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
-                    
-                    <!-- Fallback Logo (Only shows if the image above fails to load) -->
-                    <div id="fallbackLogo" class="w-10 h-10 md:w-12 md:h-12 bg-offwhite rounded-sm hidden items-center justify-center relative overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                        <div class="absolute w-6 h-6 md:w-7 md:h-7 bg-navy transform -rotate-45 translate-x-2 -translate-y-2"></div>
-                        <div class="absolute w-3 h-3 md:w-3.5 md:h-3.5 bg-navy transform rotate-45 translate-x-2 translate-y-2"></div>
-                        <div class="absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-navy rounded-full -translate-y-3.5 translate-x-3.5"></div>
+    <!-- ========== POPUP FORM ========== -->
+    <div id="popupForm" class="modal-overlay">
+        <div class="modal-box bg-white max-w-[360px] w-full mx-auto rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden relative">
+            <div class="h-[3px] w-full bg-gradient-to-r from-gold-dark via-gold to-gold-dark"></div>
+            <button id="closePopupBtn" class="absolute top-3 right-3 z-30 text-white/50 hover:text-gold transition-colors p-1 rounded-full hover:bg-white/10" aria-label="Close popup">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="bg-navy-dark px-6 pt-6 pb-4 text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-[0.06] popup-texture"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-center mb-2">
+                        <div class="w-8 h-8 border border-gold/40 rotate-45 flex items-center justify-center">
+                            <span class="text-gold font-serif text-sm -rotate-45 font-semibold">A</span>
+                        </div>
                     </div>
-                    
-                    <div class="flex flex-col justify-center">
-                        <span class="text-white font-serif text-xl md:text-2xl tracking-[0.15em] block leading-none font-semibold mt-1">GODREJ</span>
-                        <span class="text-gold font-sans text-[9px] md:text-[10px] tracking-[0.3em] uppercase block mt-1 md:mt-1.5 font-medium">Altus</span>
+                    <p class="text-gold text-[8px] tracking-[0.4em] uppercase font-semibold mb-1">Exclusive Invitation</p>
+                    <h3 class="text-white font-serif text-xl leading-tight tracking-wide">Godrej Altus</h3>
+                    <p class="text-gray-400 text-[9px] tracking-[0.2em] uppercase mt-1">Vastrapur · Ahmedabad</p>
+                </div>
+            </div>
+            <div class="px-6 pt-4 pb-5">
+                <p class="text-gray-500 text-[10px] text-center font-light leading-relaxed mb-4 tracking-wide">Share your details to receive the private brochure &amp; pre-launch pricing.</p>
+                <form id="popupEnquiryForm" class="space-y-3" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you shortly.'); document.getElementById('popupForm').classList.remove('active');">
+                    <div><label class="premium-label" for="popupName">Full Name</label><input id="popupName" type="text" placeholder="Your full name" required class="premium-input"></div>
+                    <div><label class="premium-label" for="popupPhone">Phone Number</label><input id="popupPhone" type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
+                    <div><label class="premium-label" for="popupEmail">Email Address</label><input id="popupEmail" type="email" placeholder="you@example.com" required class="premium-input"></div>
+                    <div><label class="premium-label" for="popupConfig">Configuration</label><select id="popupConfig" class="premium-select"><option value="" disabled selected>Select residence</option><option>3 BHK Premium</option><option>4 BHK Luxury</option><option>4 BHK Premium</option></select></div>
+                    <div class="pt-1">
+                        <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3 rounded-sm transition-all duration-300 text-[10px] tracking-[0.22em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
+                            <span class="relative z-10 flex items-center justify-center gap-1.5">Request Private Access<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></span>
+                        </button>
                     </div>
-                </div>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#vision" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium">Vision</a>
-                    <a href="#pricing" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium">Pricing</a>
-                    <a href="#amenities" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium">Amenities</a>
-                    <a href="#location" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium">Location</a>
-                    <a href="#enquire" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-navy-dark uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(197,160,89,0.4)]">
-                        <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-20"></span>
-                        <span class="relative">Enquire Now</span>
-                    </a>
-                </div>
-
-                <!-- Mobile Menu Button (Hamburger) -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" type="button" class="text-gray-300 hover:text-gold focus:outline-none p-2" aria-controls="mobile-menu" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <!-- Hamburger Icon -->
-                        <svg id="icon-open" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <!-- Close Icon (Hidden by default) -->
-                        <svg id="icon-close" class="h-8 w-8 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                </form>
+                <div class="mt-3 pt-2.5 border-t border-gold/10 flex items-center justify-center gap-3">
+                    <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg><span class="text-[8px] text-gray-400 tracking-wider uppercase font-medium">Confidential</span></div>
+                    <span class="w-px h-2.5 bg-gray-200"></span>
+                    <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg><span class="text-[8px] text-gray-400 tracking-wider uppercase font-medium">RERA Registered</span></div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div class="md:hidden hidden bg-navy-dark border-t border-white/10 shadow-2xl transition-all duration-300" id="mobile-menu">
-            <div class="px-4 pt-4 pb-6 space-y-2">
-                <a href="#vision" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Vision</a>
-                <a href="#pricing" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Pricing</a>
-                <a href="#amenities" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Amenities</a>
-                <a href="#location" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Location</a>
+<!-- Navigation -->
+<nav class="fixed w-full z-50 transition-all duration-500 border-b border-white/10" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20 md:h-24">
+            
+            <!-- Logo Area with subtle glow to ensure visibility on transparent navbar -->
+            <div class="flex-shrink-0 flex items-center gap-3 md:gap-4 cursor-pointer drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]">
+                <img src="/images/godrejlogo.png" alt="Godrej Altus Logo" class="h-10 md:h-14 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
                 
-                <div class="pt-4 mt-2 border-t border-white/10">
-                    <a href="#enquire" class="mobile-link w-full flex items-center justify-center px-6 py-4 text-sm font-bold tracking-[0.15em] text-navy-dark uppercase bg-gold rounded-sm shadow-[0_0_15px_rgba(197,160,89,0.3)]">
-                        Enquire Now
-                    </a>
+                <div id="fallbackLogo" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-sm hidden items-center justify-center relative overflow-hidden shadow-lg">
+                    <div class="absolute w-6 h-6 md:w-7 md:h-7 bg-navy transform -rotate-45 translate-x-2 -translate-y-2"></div>
+                    <div class="absolute w-3 h-3 md:w-3.5 md:h-3.5 bg-navy transform rotate-45 translate-x-2 translate-y-2"></div>
+                    <div class="absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-navy rounded-full -translate-y-3.5 translate-x-3.5"></div>
                 </div>
-                <div class="pt-4 text-center space-y-3">
-                    <a href="tel:9702053758" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
-                        Call: 9702053758
-                    </a>
-                    <a href="mailto:referindia@yahoo.com" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        referindia@yahoo.com
-                    </a>
+                
+                <div class="flex flex-col justify-center">
+                    <span class="text-white font-serif text-xl md:text-2xl tracking-[0.15em] block leading-none font-semibold mt-1 drop-shadow-md">GODREJ</span>
+                    <span class="text-gold font-sans text-[9px] md:text-[10px] tracking-[0.3em] uppercase block mt-1 md:mt-1.5 font-medium drop-shadow-md">Altus</span>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section (Fixed height and padding to show stats) -->
-    <section class="relative bg-hero bg-cover bg-center bg-no-repeat min-h-screen flex items-center pt-32 pb-16">
+            <!-- Desktop Menu Links -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#vision" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Vision</a>
+                <a href="#pricing" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Pricing</a>
+                <a href="#amenities" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Amenities</a>
+                <a href="#location" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Location</a>
+                
+                <a href="#enquire" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-white uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] transition-all duration-300">
+                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-20"></span>
+                    <span class="relative">Enquire Now</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-btn" type="button" class="text-white hover:text-gold focus:outline-none p-2 drop-shadow-md" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg id="icon-open" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    <svg id="icon-close" class="h-8 w-8 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div class="md:hidden hidden bg-navy-dark border-t border-white/10 shadow-2xl transition-all duration-300" id="mobile-menu">
+        <div class="px-4 pt-4 pb-6 space-y-2">
+            <a href="#vision" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Vision</a>
+            <a href="#pricing" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Pricing</a>
+            <a href="#amenities" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Amenities</a>
+            <a href="#location" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Location</a>
+            
+            <div class="pt-4 mt-2 border-t border-white/10">
+                <a href="#enquire" class="mobile-link w-full flex items-center justify-center px-6 py-4 text-sm font-bold tracking-[0.15em] text-white uppercase bg-gold rounded-sm shadow-[0_0_15px_rgba(217,26,91,0.3)]">
+                    Enquire Now
+                </a>
+            </div>
+            
+            <div class="pt-4 text-center space-y-3">
+                <a href="tel:9099446667" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                    Call: 9099446667
+                </a>
+                <a href="mailto:contact@godrejaltusahmedabad.co.in" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    contact@godrejaltusahmedabad.co.in
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- HERO -->
+    <section class="relative bg-hero bg-cover bg-center bg-no-repeat min-h-screen flex items-center pt-32 pb-16 overflow-hidden">
         <div class="absolute inset-0 bg-navy-dark/20 mix-blend-multiply"></div>
+        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] bg-gold/10 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"></div>
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="particle particle-1"></div><div class="particle particle-2"></div><div class="particle particle-3"></div><div class="particle particle-4"></div>
+            <div class="particle particle-5"></div><div class="particle particle-6"></div><div class="particle particle-7"></div><div class="particle particle-8"></div>
+        </div>
         <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
             <div class="max-w-4xl">
                 <div data-aos="fade-right" data-aos-duration="1000">
-                    <p class="text-gold tracking-[0.3em] uppercase text-xs font-semibold mb-6 flex items-center gap-4">
-                        <span class="w-12 h-[1px] bg-gold inline-block"></span>
-                        A Class Above | Only 131 Exclusive Units
-                    </p>
+<p class="text-gold tracking-[0.3em] uppercase text-xs font-semibold mb-6 flex items-center gap-4">
+    <span class="w-12 h-[1px] bg-gold inline-block"></span>
+    Where Legacy Meets Luxury | Vastrapur's Finest
+</p>
                 </div>
-                <h1 class="text-6xl md:text-8xl lg:text-[7rem] font-serif text-white leading-[0.9] mb-8" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
-                    Crafting <br> <span class="italic gold-text-gradient">Landmarks.</span>
-                </h1>
-                <p class="text-gray-300 text-lg md:text-xl font-light mb-12 max-w-2xl leading-relaxed tracking-wide" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                    Set within Ahmedabad's flourishing western corridor, Godrej Altus, Vastrapur embodies a rare confluence of seamless connectivity, refined lifestyle, and effortless everyday convenience.
-                </p>
+                <h1 class="text-6xl md:text-8xl lg:text-[7rem] font-serif text-white leading-[0.9] mb-8 drop-shadow-2xl" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">Crafting <br><span class="italic gold-text-gradient">Landmarks.</span></h1>
+                <p class="text-gray-200 text-lg md:text-xl font-light mb-12 max-w-2xl leading-relaxed tracking-wide drop-shadow-md" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">Set within Ahmedabad's flourishing western corridor, Godrej Altus, Vastrapur embodies a rare confluence of seamless connectivity, refined lifestyle, and effortless everyday convenience.</p>
                 <div class="flex flex-col sm:flex-row gap-6" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-                    <a href="#residences" class="bg-gold hover:bg-gold-light text-navy-dark text-center px-10 py-4 rounded-sm font-semibold tracking-widest text-sm uppercase transition-all duration-300 shadow-[0_10px_30px_rgba(197,160,89,0.3)] hover:-translate-y-1">
-                        Explore Residences
-                    </a>
-                    <a href="tel:9702053758" class="group border border-white/30 hover:border-gold hover:bg-white/5 text-white text-center px-10 py-4 rounded-sm font-semibold tracking-widest text-sm uppercase transition-all duration-300 flex items-center justify-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold group-hover:animate-pulse" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
-                        Schedule Site Visit
+                    <a href="#residences" class="group relative overflow-hidden bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white text-center px-10 py-4 rounded-sm font-semibold tracking-widest text-sm uppercase transition-all duration-300 shadow-[0_10px_40px_rgba(217,26,91,0.4)] hover:shadow-[0_15px_50px_rgba(217,26,91,0.6)] hover:-translate-y-1 border border-transparent hover:border-white/50"><span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span><span class="relative z-10">Explore Residences</span></a>
+                    <a href="tel:9099446667" class="group border border-white/30 hover:border-gold hover:bg-white/5 text-white text-center px-10 py-4 rounded-sm font-semibold tracking-widest text-sm uppercase transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold group-hover:animate-pulse" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>Schedule Site Visit
                     </a>
                 </div>
-                
-                <!-- Stats Section -->
                 <div class="mt-16 md:mt-20 pt-8 border-t border-white/20 flex flex-wrap gap-8 md:gap-12 text-white" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
-                    <div>
-                        <p class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2 font-semibold">Starting At</p>
-                        <p class="text-2xl font-serif">₹4 Cr<span class="text-lg">*</span></p>
-                    </div>
+                    <div><p class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2 font-semibold">Starting At</p><p class="text-2xl font-serif">₹3.59 Cr<span class="text-lg">*</span></p></div>
                     <div class="w-[1px] h-12 bg-white/20 hidden sm:block"></div>
-                    <div>
-                        <p class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2 font-semibold">Configurations</p>
-                        <p class="text-xl font-light">3 & 4 BHK Premium & Luxury</p>
-                    </div>
+                    <div><p class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2 font-semibold">Configurations</p><p class="text-xl font-light">3 &amp; 4 BHK Premium &amp; Luxury</p></div>
                     <div class="w-[1px] h-12 bg-white/20 hidden sm:block"></div>
-                    <div>
-                        <p class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2 font-semibold">Location</p>
-                        <p class="text-xl font-light">Vastrapur, Ahmedabad</p>
-                    </div>
+                    <div><p class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2 font-semibold">Location</p><p class="text-xl font-light">Vastrapur, Ahmedabad</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- The Vision / Architect Section -->
+    <!-- VISION -->
     <section id="vision" class="py-32 bg-white relative overflow-hidden">
         <div class="absolute -right-40 top-40 text-[20rem] font-serif text-navy/5 leading-none select-none pointer-events-none">A</div>
         <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                 <div class="relative" data-aos="fade-right" data-aos-duration="1200">
-                    <div class="img-frame">
-                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Luxury Architecture" class="w-full h-[600px] object-cover rounded-sm grayscale-[20%] hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute -top-5 -left-5 w-full h-full border border-gold/40 rounded-sm pointer-events-none"></div>
+                    <div class="absolute -bottom-5 -right-5 w-full h-full border border-navy/20 rounded-sm pointer-events-none"></div>
+                    <div class="relative overflow-hidden rounded-sm shadow-[0_25px_60px_rgba(46,5,21,0.25)] group">
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Luxury Architecture" class="w-full h-[600px] object-cover transition-all duration-1000 group-hover:scale-105 grayscale-[15%] group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/50 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute inset-3 border border-white/20 pointer-events-none rounded-sm"></div>
+                        <div class="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/70 pointer-events-none"></div>
+                        <div class="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/70 pointer-events-none"></div>
+                        <div class="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/70 pointer-events-none"></div>
+                        <div class="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/70 pointer-events-none"></div>
                     </div>
-                    <div class="absolute -bottom-8 -right-8 bg-navy p-8 rounded-sm shadow-2xl border-t-2 border-gold max-w-xs">
-                        <p class="font-serif text-2xl text-white mb-2 leading-tight">Designed by <br><span class="text-gold">Hafeez Contractor</span></p>
-                        <p class="text-gray-400 text-xs tracking-wider uppercase">Architectural Consultant</p>
+                    <div class="absolute -bottom-8 -right-8 bg-navy p-7 rounded-sm shadow-[0_20px_50px_rgba(46,5,21,0.5)] border-t-2 border-gold max-w-[240px] z-10">
+                        <p class="text-gold text-[9px] tracking-[0.3em] uppercase font-semibold mb-2">Designed by</p>
+                        <p class="font-serif text-2xl text-white leading-tight mb-2">Hafeez <span class="text-gold">Contractor</span></p>
+                        <div class="w-8 h-[1px] bg-gold/40 mb-2"></div>
+                        <p class="text-gray-400 text-[10px] tracking-[0.2em] uppercase">Architectural Consultant</p>
                     </div>
                 </div>
                 <div data-aos="fade-left" data-aos-duration="1200">
                     <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4">Why Consider Godrej Altus?</h2>
                     <h3 class="text-5xl md:text-6xl font-serif text-navy leading-tight mb-8">A Legacy <br>Carved in Stone.</h3>
                     <div class="space-y-6">
-                        <div class="flex gap-4 items-start group">
-                            <div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
-                                <span class="text-gold group-hover:text-navy font-bold">01</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-serif text-navy mb-1">Contemporary Luxury Design</h4>
-                                <p class="text-gray-500 text-sm font-light">A landmark envisioned by legendary architect Mr. Hafeez Contractor, creating optimal conditions for natural lighting and airflow.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start group">
-                            <div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
-                                <span class="text-gold group-hover:text-navy font-bold">02</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-serif text-navy mb-1">Fully Vastu Compliant</h4>
-                                <p class="text-gray-500 text-sm font-light">Certified by expert Chirag Daruwalla, ensuring harmonious integration of spatial orientation, form, and function.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start group">
-                            <div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
-                                <span class="text-gold group-hover:text-navy font-bold">03</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-serif text-navy mb-1">Sprawling 3-Acre Complex</h4>
-                                <p class="text-gray-500 text-sm font-light">A low-density, ultra-luxurious enclave featuring only 131 exclusive units for unmatched privacy.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 items-start group">
-                            <div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300">
-                                <span class="text-gold group-hover:text-navy font-bold">04</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-serif text-navy mb-1">Massive Clubhouse & Sky Hub</h4>
-                                <p class="text-gray-500 text-sm font-light">A sprawling 20,000 sq ft clubhouse and an exclusive terrace sky hub with a 10,000 sq ft courtyard.</p>
-                            </div>
-                        </div>
+                        <div class="flex gap-4 items-start group"><div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300"><span class="text-gold group-hover:text-white font-bold">01</span></div><div><h4 class="text-lg font-serif text-navy mb-1">Contemporary Luxury Design</h4><p class="text-gray-500 text-sm font-light">A landmark envisioned by legendary architect Mr. Hafeez Contractor, creating optimal conditions for natural lighting and airflow.</p></div></div>
+                        <div class="flex gap-4 items-start group"><div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300"><span class="text-gold group-hover:text-white font-bold">02</span></div><div><h4 class="text-lg font-serif text-navy mb-1">Fully Vastu Compliant</h4><p class="text-gray-500 text-sm font-light">Certified by expert Chirag Daruwalla, ensuring harmonious integration of spatial orientation, form, and function.</p></div></div>
+                        <div class="flex gap-4 items-start group"><div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300"><span class="text-gold group-hover:text-white font-bold">03</span></div><div><h4 class="text-lg font-serif text-navy mb-1">Sprawling 3-Acre Complex</h4><p class="text-gray-500 text-sm font-light">A low-density, ultra-luxurious enclave featuring only 215 exclusive units for unmatched privacy.</p></div></div>
+                        <div class="flex gap-4 items-start group"><div class="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0 group-hover:bg-gold transition-colors duration-300"><span class="text-gold group-hover:text-white font-bold">04</span></div><div><h4 class="text-lg font-serif text-navy mb-1">Massive Clubhouse &amp; Sky Hub</h4><p class="text-gray-500 text-sm font-light">A sprawling 20,000 sq ft clubhouse and an exclusive terrace sky hub with a 10,000 sq ft courtyard.</p></div></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Amenities Section -->
-    <section id="amenities" class="py-24 bg-navy text-white relative">
+    <!-- AMENITIES -->
+    <section id="amenities" class="py-24 bg-navy text-white relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 bg-texture"></div>
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
         <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-3">Curated Experiences</h2>
                 <h3 class="text-4xl md:text-5xl font-serif">A World of Leisure, Privately Held</h3>
                 <div class="w-12 h-[1px] bg-gold mx-auto mt-6"></div>
-                <p class="text-gray-400 text-sm mt-4 max-w-2xl mx-auto">Over ~1858 sq. mt. (~20,000 sq. ft.) of Clubhouse & Terrace Amenities including a 10,000 sq. ft. courtyard.</p>
+                <p class="text-gray-400 text-sm mt-4 max-w-2xl mx-auto">Over ~1858 sq. mt. (~20,000 sq. ft.) of Clubhouse &amp; Terrace Amenities including a 10,000 sq. ft. courtyard.</p>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-                <!-- Expanded Amenities List -->
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="50">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
-                    <h4 class="text-sm font-medium">Private Mini Theatre</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Exclusive Screenings</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5 text-center">
+                <!-- Tile 01 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="50">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Private Mini Theatre</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Exclusive Screenings</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="100">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                    <h4 class="text-sm font-medium">Padel Court</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Rooftop Recreation</p>
+                <!-- Tile 02 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Padel Court</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Rooftop Recreation</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="150">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                    <h4 class="text-sm font-medium">Lap Pool & Jacuzzi</h4>
-                    <p class="text-[10px] text-gray-500 mt-1">Open-Air Courtyard</p>
+                <!-- Tile 03 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="150">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Lap Pool &amp; Jacuzzi</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open-Air Courtyard</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="200">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                    <h4 class="text-sm font-medium">Sky Hub & Star Gazing</h4>
+                <!-- Tile 04 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Sky Hub &amp; Star Gazing</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Starlit Evenings</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="250">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                    <h4 class="text-sm font-medium">Sky Meditation Deck</h4>
+                <!-- Tile 05 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="250">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Sky Meditation Deck</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Tranquil Retreat</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="300">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    <h4 class="text-sm font-medium">Reading Cove & Library</h4>
+                <!-- Tile 06 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Reading Cove &amp; Library</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Curated Collection</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="350">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <h4 class="text-sm font-medium">Kids' Play & Crèche</h4>
+                <!-- Tile 07 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="350">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Kids' Play &amp; Crèche</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Family Time</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="400">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    <h4 class="text-sm font-medium">BBQ Deck & Amphitheatre</h4>
+                <!-- Tile 08 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">BBQ Deck &amp; Amphitheatre</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Evening Soirees</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="450">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
-                    <h4 class="text-sm font-medium">Kite Flying Plaza</h4>
+                <!-- Tile 09 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="450">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Kite Flying Plaza</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open Skies</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="500">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <h4 class="text-sm font-medium">Gazeebo & Pebble Plaza</h4>
+                <!-- Tile 10 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Gazeebo &amp; Pebble Plaza</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Landscaped Calm</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="550">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <h4 class="text-sm font-medium">Wellness Zone & Spa</h4>
+                <!-- Tile 11 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="550">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Wellness Zone &amp; Spa</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Restorative Care</p>
+                    </div>
                 </div>
-                <div class="amenity-card bg-white/5 p-6 rounded-sm border border-white/10 hover:border-gold/50 transition-colors cursor-pointer" data-aos="fade-up" data-aos-delay="600">
-                    <svg class="w-8 h-8 mx-auto mb-4 text-gray-400 amenity-icon transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                    <h4 class="text-sm font-medium">Multipurpose Hall & Sky Lounge</h4>
+                <!-- Tile 12 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
+                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
+                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
+                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
+                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></div>
+                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Multipurpose Hall &amp; Sky Lounge</h4>
+                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Celebrations</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Residences Section -->
-    <section id="residences" class="py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="text-center mb-20" data-aos="fade-up">
-                <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-3">Ultra-Spacious Layouts</h2>
-                <h3 class="text-4xl md:text-5xl font-serif text-navy">Your Private Sanctuary</h3>
-                <div class="w-12 h-[1px] bg-gold mx-auto mt-6"></div>
+    <!-- RESIDENCES -->
+    <section id="residences" class="py-20 md:py-32 bg-white relative overflow-hidden">
+        <div class="absolute -right-40 top-20 text-[20rem] md:text-[30rem] font-serif text-navy/[0.03] leading-none select-none pointer-events-none">R</div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 md:mb-20" data-aos="fade-up">
+                <div class="flex items-center justify-center gap-3 mb-4"><span class="w-8 md:w-12 h-[1px] bg-navy/30"></span><h2 class="text-navy text-[9px] md:text-[10px] font-bold tracking-[0.3em] md:tracking-[0.4em] uppercase">Ultra-Spacious Layouts</h2><span class="w-8 md:w-12 h-[1px] bg-navy/30"></span></div>
+                <h3 class="text-3xl md:text-5xl font-serif text-navy-dark leading-tight">Your Private Sanctuary</h3>
+                <p class="text-gray-500 text-xs md:text-sm mt-3 md:mt-4 max-w-xl mx-auto font-light tracking-wide">Thoughtfully designed residences that blend expansive space with refined elegance.</p>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-                <!-- 3 BHK Premium -->
-                <div class="bg-offwhite border border-gray-100 rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="100">
-                    <div class="p-8 text-center border-b border-gray-200 bg-navy text-white">
-                        <p class="text-gold text-[10px] tracking-[0.2em] uppercase font-bold mb-2">The Opulent</p>
-                        <h4 class="text-white font-serif text-3xl mb-2">3 BHK Premium</h4>
-                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">RERA Carpet Area</p>
-                        <p class="text-2xl font-semibold text-gold">1,538 - 1,558 <span class="text-sm font-normal text-gray-400">Sq. Ft.</span></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 items-stretch">
+                <!-- 3 BHK -->
+                <div class="group relative bg-navy-dark text-white rounded-sm overflow-hidden shadow-lg hover:shadow-[0_30px_70px_rgba(46,5,21,0.45)] transition-all duration-500 flex flex-col hover:-translate-y-2 border border-navy/30 hover:border-gold/50" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative h-48 md:h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="3 BHK Premium Interior" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/30 to-transparent"></div>
+                        <div class="absolute top-4 left-4 bg-gold text-white text-[9px] md:text-[10px] font-bold px-3 py-1.5 uppercase tracking-[0.2em] rounded-sm shadow-lg">3 BHK Premium</div>
+                        <div class="absolute bottom-4 left-4"><p class="text-gold text-[9px] md:text-[10px] tracking-[0.3em] uppercase font-bold">The Opulent</p></div>
                     </div>
-                    <div class="p-8 flex-grow flex flex-col justify-between">
-                        <ul class="text-sm text-gray-600 space-y-4 mb-8 font-light">
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Vaastu Compliant Layout</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Expansive Living & Dining Area</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Wooden Finish Vitrified Balcony</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Modular Kitchen with Quartz Counter</li>
-                        </ul>
-                        <a href="#enquire" class="block w-full border border-navy/20 text-navy hover:bg-navy hover:text-white py-3.5 rounded-sm transition-colors text-xs font-semibold uppercase tracking-widest text-center mt-auto">Request Floor Plan</a>
-                    </div>
-                </div>
-
-                <!-- 4 BHK Luxury (Highlighted) -->
-                <div class="bg-navy text-white rounded-sm overflow-hidden shadow-2xl relative transform lg:-translate-y-6 border-t-4 border-gold flex flex-col" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute top-0 right-0 bg-gold text-navy-dark text-[10px] font-bold px-4 py-1.5 uppercase tracking-[0.2em] rounded-bl-lg z-10">Most Coveted</div>
-                    <div class="p-8 text-center border-b border-white/10 bg-navy-light relative">
-                        <div class="absolute inset-0 bg-black/10"></div>
-                        <p class="text-gold text-[10px] tracking-[0.2em] uppercase font-bold mb-2 relative z-10">The Majestic</p>
-                        <h4 class="text-white font-serif text-3xl mb-2 relative z-10">4 BHK Luxury</h4>
-                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1 relative z-10">RERA Carpet Area</p>
-                        <p class="text-2xl font-semibold text-gold relative z-10">2,334 - 2,457 <span class="text-sm font-normal text-gray-400">Sq. Ft.</span></p>
-                    </div>
-                    <div class="p-8 flex-grow flex flex-col justify-between">
-                        <ul class="text-sm text-gray-300 space-y-4 mb-8 font-light">
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> 55 Ft x 7 Ft Running Balcony</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Servant Room with Separate Entry</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> 3 Surface Car Parks</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Premium Marble Finish Flooring</li>
-                        </ul>
-                        <a href="#enquire" class="block w-full bg-gold hover:bg-gold-light text-navy-dark py-3.5 rounded-sm transition-colors text-xs font-bold uppercase tracking-widest text-center shadow-[0_0_15px_rgba(197,160,89,0.3)] mt-auto">Request Floor Plan</a>
+                    <div class="p-5 md:p-7 flex-grow flex flex-col justify-between">
+                        <div class="mb-4 md:mb-5">
+                            <div class="flex items-baseline justify-between mb-3 md:mb-4 pb-3 md:pb-4 border-b border-white/10">
+                                <div><p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-wider mb-1">RERA Carpet Area</p><p class="text-xl md:text-2xl font-semibold text-gold font-serif">1,538 <span class="text-sm md:text-base text-gray-400 font-sans font-light">- 1,558</span> <span class="text-[10px] md:text-xs font-normal text-gray-500">Sq. Ft.</span></p></div>
+                                <div class="text-right"><p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-wider mb-1">Starting</p><p class="text-base md:text-lg font-semibold text-white font-serif">₹3.59 Cr*</p></div>
+                            </div>
+                            <ul class="text-xs md:text-sm text-gray-300 space-y-2.5 md:space-y-3 font-light">
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Vaastu Compliant Layout</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Expansive Living &amp; Dining Area</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Wooden Finish Vitrified Balcony</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Modular Kitchen with Quartz Counter</li>
+                            </ul>
+                        </div>
+                        <a href="#enquire" class="group/btn relative block w-full border border-gold/30 text-gold hover:bg-gold hover:text-white py-3 md:py-3.5 rounded-sm transition-all duration-300 text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] text-center mt-auto overflow-hidden"><span class="relative z-10">Request Floor Plan</span></a>
                     </div>
                 </div>
-
-                <!-- 4 BHK Premium -->
-                <div class="bg-offwhite border border-gray-100 rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-500 flex flex-col" data-aos="fade-up" data-aos-delay="300">
-                    <div class="p-8 text-center border-b border-gray-200 bg-navy text-white">
-                        <p class="text-gold text-[10px] tracking-[0.2em] uppercase font-bold mb-2">The Palatial</p>
-                        <h4 class="text-white font-serif text-3xl mb-2">4 BHK Premium</h4>
-                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">RERA Carpet Area</p>
-                        <p class="text-2xl font-semibold text-gold">2,025 - 2,085 <span class="text-sm font-normal text-gray-400">Sq. Ft.</span></p>
+                <!-- 4 BHK Majestic -->
+                <div class="group relative bg-[#1A020A] text-white rounded-sm overflow-hidden shadow-2xl md:transform lg:-translate-y-6 border-t-4 border-gold flex flex-col transition-all duration-500 hover:shadow-[0_40px_90px_rgba(46,5,21,0.7)]" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute top-0 right-0 bg-gold text-white text-[9px] md:text-[10px] font-bold px-4 md:px-5 py-1.5 md:py-2 uppercase tracking-[0.2em] md:tracking-[0.25em] rounded-bl-lg z-20 shadow-lg">Most Coveted</div>
+                    <div class="absolute top-3 left-3 w-6 md:w-8 h-6 md:h-8 border-t border-l border-gold/40 z-20"></div>
+                    <div class="absolute bottom-3 right-3 w-6 md:w-8 h-6 md:h-8 border-b border-r border-gold/40 z-20"></div>
+                    <div class="relative h-48 md:h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="4 BHK Majestic Interior" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1A020A] via-[#1A020A]/40 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4"><p class="text-gold text-[9px] md:text-[10px] tracking-[0.3em] uppercase font-bold">The Majestic</p></div>
                     </div>
-                    <div class="p-8 flex-grow flex flex-col justify-between">
-                        <ul class="text-sm text-gray-600 space-y-4 mb-8 font-light">
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Double-Height Entrance Lobby</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> 12 Ft. Slab-to-Slab Height</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Smart Door Lock & Video Door Phone</li>
-                            <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> 2 Surface Car Parks</li>
-                        </ul>
-                        <a href="#enquire" class="block w-full border border-navy/20 text-navy hover:bg-navy hover:text-white py-3.5 rounded-sm transition-colors text-xs font-semibold uppercase tracking-widest text-center mt-auto">Request Floor Plan</a>
+                    <div class="p-5 md:p-7 flex-grow flex flex-col justify-between relative z-10">
+                        <div class="mb-4 md:mb-5">
+                            <div class="flex items-baseline justify-between mb-3 md:mb-4 pb-3 md:pb-4 border-b border-white/10">
+                                <div><p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-wider mb-1">RERA Carpet Area</p><p class="text-xl md:text-2xl font-semibold text-gold font-serif">2,025 <span class="text-sm md:text-base text-gray-300 font-sans font-light">- 2,085</span> <span class="text-[10px] md:text-xs font-normal text-gray-400">Sq. Ft.</span></p></div>
+                                <div class="text-right"><p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-wider mb-1">Starting</p><p class="text-base md:text-lg font-semibold text-gold font-serif">₹5.45 Cr*</p></div>
+                            </div>
+                            <ul class="text-xs md:text-sm text-gray-200 space-y-2.5 md:space-y-3 font-light">
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/25 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Double-Height Entrance Lobby</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/25 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>12 Ft. Slab-to-Slab Height</li>
+                        <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/25 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Smart Door Lock &amp; Video Door Phone</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/25 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>2 Surface Car Parks</li>
+                            </ul>
+                        </div>
+                        <a href="#enquire" class="block w-full bg-gold hover:bg-gold-light text-white py-3 md:py-3.5 rounded-sm transition-all duration-300 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-center shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] mt-auto">Request Floor Plan</a>
+                    </div>
+                </div>
+                <!-- 4 BHK Palatial -->
+                <div class="group relative bg-navy-dark text-white rounded-sm overflow-hidden shadow-lg hover:shadow-[0_30px_70px_rgba(46,5,21,0.45)] transition-all duration-500 flex flex-col hover:-translate-y-2 border border-navy/30 hover:border-gold/50" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative h-48 md:h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="4 BHK Palatial Interior" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/30 to-transparent"></div>
+                        <div class="absolute top-4 left-4 bg-gold text-white text-[9px] md:text-[10px] font-bold px-3 py-1.5 uppercase tracking-[0.2em] rounded-sm shadow-lg">4 BHK Palatial</div>
+                        <div class="absolute bottom-4 left-4"><p class="text-gold text-[9px] md:text-[10px] tracking-[0.3em] uppercase font-bold">The Palatial</p></div>
+                    </div>
+                    <div class="p-5 md:p-7 flex-grow flex flex-col justify-between">
+                        <div class="mb-4 md:mb-5">
+                            <div class="flex items-baseline justify-between mb-3 md:mb-4 pb-3 md:pb-4 border-b border-white/10">
+                                <div><p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-wider mb-1">RERA Carpet Area</p><p class="text-xl md:text-2xl font-semibold text-gold font-serif">2,334 <span class="text-sm md:text-base text-gray-400 font-sans font-light">- 2,457</span> <span class="text-[10px] md:text-xs font-normal text-gray-500">Sq. Ft.</span></p></div>
+                                <div class="text-right"><p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-wider mb-1">Starting</p><p class="text-base md:text-lg font-semibold text-white font-serif">₹6.10 Cr*</p></div>
+                            </div>
+                            <ul class="text-xs md:text-sm text-gray-300 space-y-2.5 md:space-y-3 font-light">
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>55 Ft x 7 Ft Running Balcony</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Servant Room with Separate Entry</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>3 Surface Car Parks</li>
+                                <li class="flex items-center gap-2.5 md:gap-3"><span class="w-4 h-4 rounded-full bg-gold/20 flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg></span>Premium Marble Finish Flooring</li>
+                            </ul>
+                        </div>
+                        <a href="#enquire" class="group/btn relative block w-full border border-gold/30 text-gold hover:bg-gold hover:text-white py-3 md:py-3.5 rounded-sm transition-all duration-300 text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] text-center mt-auto overflow-hidden"><span class="relative z-10">Request Floor Plan</span></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-        <!-- Premium Gallery Section -->
-    <section id="gallery" class="py-32 bg-offwhite relative overflow-hidden">
+    <!-- GALLERY -->
+    <section id="gallery" class="py-20 md:py-32 bg-offwhite relative overflow-hidden">
         <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
-        
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/[0.04] rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <div class="flex items-center justify-center gap-3 mb-4"><span class="w-8 md:w-12 h-[1px] bg-gold/40"></span><h2 class="text-gold text-[9px] md:text-[10px] font-bold tracking-[0.3em] md:tracking-[0.4em] uppercase">A Glimpse of Luxury</h2><span class="w-8 md:w-12 h-[1px] bg-gold/40"></span></div>
+                <h3 class="text-3xl md:text-5xl font-serif text-navy leading-tight">The Altus Gallery</h3>
+                <p class="text-gray-500 text-xs md:text-sm mt-3 md:mt-4 max-w-2xl mx-auto font-light tracking-wide">Step inside a world of architectural brilliance and refined interiors. Experience the lifestyle that awaits you.</p>
+            </div>
+            <div class="relative" data-aos="fade-up" data-aos-delay="200">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 rounded-sm overflow-hidden shadow-[0_30px_80px_rgba(46,5,21,0.35)] bg-white">
+                    <div class="lg:col-span-7 relative overflow-hidden group h-[300px] sm:h-[400px] md:h-[500px] lg:h-[620px]">
+                        <div class="gallery-slide active absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Luxury Living Room" class="w-full h-full object-cover transition-transform duration-[8000ms] ease-linear scale-100"></div>
+                        <div class="gallery-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0"><img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Master Bedroom" class="w-full h-full object-cover transition-transform duration-[8000ms] ease-linear scale-100"></div>
+                        <div class="gallery-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0"><img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Designer Kitchen" class="w-full h-full object-cover transition-transform duration-[8000ms] ease-linear scale-100"></div>
+                        <div class="gallery-slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Lap Pool" class="w-full h-full object-cover transition-transform duration-[8000ms] ease-linear scale-100"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/70 via-transparent to-navy-dark/20 pointer-events-none"></div>
+                        <div class="absolute top-4 left-4 md:top-6 md:left-6 z-20 flex items-center gap-3"><div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2"><span id="currentSlide" class="text-white font-serif text-base md:text-lg">01</span><span class="text-white/40 mx-1 text-xs">/</span><span class="text-white/60 font-serif text-xs md:text-sm">04</span></div></div>
+                        <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-20 flex gap-2 md:gap-3">
+                            <button id="prevBtn" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-gold hover:border-gold flex items-center justify-center transition-all duration-300 group/btn" aria-label="Previous slide"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 text-white group-hover/btn:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
+                            <button id="nextBtn" class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold hover:bg-gold-light flex items-center justify-center transition-all duration-300 shadow-lg group/btn" aria-label="Next slide"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg></button>
+                        </div>
+                        <div class="absolute bottom-0 left-0 w-full h-[3px] bg-white/10 z-20"><div id="progressBar" class="h-full bg-gold transition-all duration-[8000ms] ease-linear" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="lg:col-span-5 bg-navy-dark relative flex flex-col justify-between p-8 md:p-10 lg:p-12">
+                        <div class="absolute top-4 right-4 w-8 h-8 border-t border-r border-gold/30"></div>
+                        <div class="absolute bottom-4 right-4 w-8 h-8 border-b border-r border-gold/30"></div>
+                        <div class="relative z-10 pt-4">
+                            <div class="slide-content active" data-index="0"><p class="text-gold text-[10px] tracking-[0.3em] uppercase font-bold mb-3">The Living Experience</p><h4 class="text-white font-serif text-2xl md:text-3xl lg:text-4xl leading-tight mb-4">Expansive <br><span class="italic text-gold">Interiors</span></h4><div class="w-10 h-[1px] bg-gold/50 mb-5"></div><p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">Every corner is designed to evoke a sense of calm and grandeur, with natural light flooding through expansive windows.</p></div>
+                            <div class="slide-content hidden" data-index="1"><p class="text-gold text-[10px] tracking-[0.3em] uppercase font-bold mb-3">The Private Quarters</p><h4 class="text-white font-serif text-2xl md:text-3xl lg:text-4xl leading-tight mb-4">Serene <br><span class="italic text-gold">Bedrooms</span></h4><div class="w-10 h-[1px] bg-gold/50 mb-5"></div><p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">A sanctuary of tranquility with plush textures, soft lighting, and bespoke finishes that cradle you in comfort.</p></div>
+                            <div class="slide-content hidden" data-index="2"><p class="text-gold text-[10px] tracking-[0.3em] uppercase font-bold mb-3">The Culinary Space</p><h4 class="text-white font-serif text-2xl md:text-3xl lg:text-4xl leading-tight mb-4">Designer <br><span class="italic text-gold">Kitchens</span></h4><div class="w-10 h-[1px] bg-gold/50 mb-5"></div><p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">State-of-the-art kitchens with quartz counters, modular cabinetry, and seamless integration with the living spaces.</p></div>
+                            <div class="slide-content hidden" data-index="3"><p class="text-gold text-[10px] tracking-[0.3em] uppercase font-bold mb-3">The Courtyard</p><h4 class="text-white font-serif text-2xl md:text-3xl lg:text-4xl leading-tight mb-4">Tranquil <br><span class="italic text-gold">Lap Pool</span></h4><div class="w-10 h-[1px] bg-gold/50 mb-5"></div><p class="text-gray-400 text-xs md:text-sm font-light leading-relaxed">A serene retreat where still waters mirror the sky, offering a private oasis of calm and reflection.</p></div>
+                        </div>
+                        <div class="relative z-10 mt-8 hidden lg:block">
+                            <p class="text-gold text-[9px] tracking-[0.3em] uppercase font-semibold mb-3">Explore the Gallery</p>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button class="thumbnail group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="0"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Living" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"><div class="absolute inset-0 bg-navy-dark/30 group-hover:bg-navy-dark/10 transition-colors"></div></button>
+                                <button class="thumbnail group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="1"><img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Bedroom" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"><div class="absolute inset-0 bg-navy-dark/30 group-hover:bg-navy-dark/10 transition-colors"></div></button>
+                                <button class="thumbnail group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="2"><img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Kitchen" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"><div class="absolute inset-0 bg-navy-dark/30 group-hover:bg-navy-dark/10 transition-colors"></div></button>
+                                <button class="thumbnail group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="3"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Pool" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"><div class="absolute inset-0 bg-navy-dark/30 group-hover:bg-navy-dark/10 transition-colors"></div></button>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 right-0 text-[12rem] font-serif text-white/[0.03] leading-none select-none pointer-events-none hidden lg:block" id="watermarkNumber">01</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-4 gap-2 mt-4 lg:hidden" data-aos="fade-up" data-aos-delay="300">
+                    <button class="thumbnail-mobile group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="0"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Living" class="w-full h-full object-cover"><div class="absolute inset-0 bg-navy-dark/30"></div></button>
+                    <button class="thumbnail-mobile group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="1"><img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Bedroom" class="w-full h-full object-cover"><div class="absolute inset-0 bg-navy-dark/30"></div></button>
+                    <button class="thumbnail-mobile group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="2"><img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kitchen" class="w-full h-full object-cover"><div class="absolute inset-0 bg-navy-dark/30"></div></button>
+                    <button class="thumbnail-mobile group relative overflow-hidden rounded-sm h-16 border-2 border-transparent transition-all duration-300" data-index="3"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Pool" class="w-full h-full object-cover"><div class="absolute inset-0 bg-navy-dark/30"></div></button>
+                </div>
+            </div>
+            <div class="text-center mt-10 md:mt-16" data-aos="fade-up" data-aos-delay="500">
+                <a href="#enquire" class="inline-flex items-center gap-3 text-navy font-semibold text-[10px] md:text-sm tracking-[0.2em] md:tracking-widest uppercase hover:text-gold transition-colors group"><span>Experience it in person</span><span class="w-7 h-7 md:w-9 md:h-9 rounded-full border border-navy/20 flex items-center justify-center group-hover:border-gold transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 md:h-4 md:w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION -->
+    <section id="location" class="py-24 bg-navy-dark text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.07] bg-texture pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/[0.04] rounded-full blur-[140px] pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-20" data-aos="fade-up">
-                <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-3">A Glimpse of Luxury</h2>
-                <h3 class="text-4xl md:text-5xl font-serif text-navy">The Altus Gallery</h3>
-                <div class="w-12 h-[1px] bg-gold mx-auto mt-6"></div>
-                <p class="text-gray-500 text-sm mt-4 max-w-2xl mx-auto">Step inside a world of architectural brilliance and refined interiors. Experience the lifestyle that awaits you.</p>
+            <div class="text-center mb-14" data-aos="fade-up">
+                <div class="flex items-center justify-center gap-3 mb-4"><span class="w-10 h-[1px] bg-gold/50"></span><h2 class="text-gold text-[10px] font-bold tracking-[0.4em] uppercase">Unmatched Location</h2><span class="w-10 h-[1px] bg-gold/50"></span></div>
+                <h3 class="text-4xl md:text-5xl font-serif leading-tight">Key Highlights of <span class="italic text-gold">Vastrapur</span></h3>
+                <p class="text-gray-400 text-sm mt-4 max-w-3xl mx-auto font-light tracking-wide">An educational-cum-residential hub in Ahmedabad West, offering excellent infrastructure, corporate hubs, and premium lifestyle amenities.</p>
             </div>
-
-            <!-- Masonry-style Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                
-                <!-- Large Image 1 (Spans 2 cols on lg) -->
-                <div class="lg:col-span-2 relative group overflow-hidden rounded-sm h-[300px] md:h-[400px] shadow-lg" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Luxury Living Room" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <p class="text-gold text-xs tracking-widest uppercase mb-2 font-bold">The Living Experience</p>
-                        <h4 class="text-white font-serif text-3xl">Expansive Interiors</h4>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10 mb-16">
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-3 mb-5"><span class="w-8 h-[1px] bg-gold"></span><h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase">Seamless Connectivity</h4></div>
+                    <ul class="space-y-3">
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">SG Highway</span><span class="text-white text-sm font-medium">2 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">132 Ft Ring Road</span><span class="text-white text-sm font-medium">Seamless Citywide</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Gurukul Metro Station</span><span class="text-white text-sm font-medium">2 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Ahmedabad Railway Station</span><span class="text-white text-sm font-medium">Regional Access</span></li>
+                    </ul>
                 </div>
-
-                <!-- Small Image 2 -->
-                <div class="relative group overflow-hidden rounded-sm h-[300px] md:h-[400px] shadow-lg" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Lap Pool" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <p class="text-gold text-xs tracking-widest uppercase mb-1 font-bold">The Courtyard</p>
-                        <h4 class="text-white font-serif text-2xl">Tranquil Lap Pool</h4>
-                    </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-3 mb-5"><span class="w-8 h-[1px] bg-gold"></span><h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase">Education &amp; Healthcare</h4></div>
+                    <ul class="space-y-3">
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">IIM Ahmedabad</span><span class="text-white text-sm font-medium">Premier Institute</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Zydus School &amp; Riverside School</span><span class="text-white text-sm font-medium">Within 5 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Sterling &amp; CIMS Hospitals</span><span class="text-white text-sm font-medium">5 - 8 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Brinda Women &amp; Sanjivani</span><span class="text-white text-sm font-medium">Locality</span></li>
+                    </ul>
                 </div>
-
-                <!-- Small Image 3 -->
-                <div class="relative group overflow-hidden rounded-sm h-[300px] md:h-[400px] shadow-lg" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sky Deck" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <p class="text-gold text-xs tracking-widest uppercase mb-1 font-bold">The Sky Hub</p>
-                        <h4 class="text-white font-serif text-2xl">Starlit Terrace</h4>
-                    </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center gap-3 mb-5"><span class="w-8 h-[1px] bg-gold"></span><h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase">Corporate &amp; IT Hubs</h4></div>
+                    <ul class="space-y-3">
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">SG Highway Corporate Belt</span><span class="text-white text-sm font-medium">3 - 4 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Sindhu Bhavan Road Offices</span><span class="text-white text-sm font-medium">Within 5 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Prahlad Nagar IT Hub</span><span class="text-white text-sm font-medium">6 km</span></li>
+                    </ul>
                 </div>
-
-                <!-- Large Image 4 (Spans 2 cols on lg) -->
-                <div class="lg:col-span-2 relative group overflow-hidden rounded-sm h-[300px] md:h-[400px] shadow-lg" data-aos="fade-up" data-aos-delay="400">
-                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Architecture" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <p class="text-gold text-xs tracking-widest uppercase mb-2 font-bold">The Masterpiece</p>
-                        <h4 class="text-white font-serif text-3xl">Iconic Architecture</h4>
-                    </div>
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center gap-3 mb-5"><span class="w-8 h-[1px] bg-gold"></span><h4 class="text-gold text-[10px] font-bold tracking-[0.3em] uppercase">Retail &amp; Lifestyle</h4></div>
+                    <ul class="space-y-3">
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Ahmedabad One Mall</span><span class="text-white text-sm font-medium">Anchors Retail</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Himalaya Mall</span><span class="text-white text-sm font-medium">1 km</span></li>
+                        <li class="group flex justify-between items-center border-b border-white/[0.08] pb-3 hover:border-gold/40 transition-colors"><span class="text-gray-300 text-sm font-light group-hover:text-white transition-colors">Vastrapur Lakefront</span><span class="text-white text-sm font-medium">Cafes &amp; Dining</span></li>
+                    </ul>
                 </div>
-
             </div>
+            <div class="relative rounded-sm overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.5)] border border-white/10" data-aos="fade-up">
+                <div class="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 border-gold/60 z-10 pointer-events-none"></div>
+                <div class="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 border-gold/60 z-10 pointer-events-none"></div>
+                <div class="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 border-gold/60 z-10 pointer-events-none"></div>
+                <div class="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 border-gold/60 z-10 pointer-events-none"></div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14681.895374266782!2d72.5003719!3d23.0359209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sVastrapur%2C%20Ahmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="450" style="border:0; filter: invert(90%) hue-rotate(180deg) contrast(115%) saturate(0.8);" allowfullscreen="" loading="lazy" class="w-full h-[350px] md:h-[450px] block"></iframe>
+                <div class="absolute bottom-6 left-6 right-6 md:right-auto md:max-w-sm bg-navy-dark/95 backdrop-blur-md border border-gold/30 rounded-sm p-5 shadow-2xl">
+                    <div class="flex items-start gap-3"><div class="w-9 h-9 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div><div><p class="text-gold text-[9px] tracking-[0.3em] uppercase font-bold mb-1">The Address</p><p class="text-white text-sm font-medium leading-snug">Godrej Altus, Vastrapur<br>Ahmedabad, Gujarat</p></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- FOOTER -->
+<footer id="enquire" class="bg-white text-gray-600 font-sans pt-16 pb-8 border-t border-gray-200 relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-gray-200">
             
-            <!-- CTA under gallery -->
-            <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="500">
-                <a href="#enquire" class="inline-flex items-center gap-3 text-navy font-semibold text-sm tracking-widest uppercase hover:text-gold transition-colors group">
-                    <span>Experience it in person</span>
-                    <span class="w-8 h-8 rounded-full border border-navy/20 flex items-center justify-center group-hover:border-gold transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                    </span>
-                </a>
+            <!-- Logo & About -->
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    
+                    <!-- Logo Image -->
+                    <img 
+                        src="/images/godrejlogo.png" 
+                        alt="Godrej Altus Logo" 
+                        class="h-10 w-auto object-contain" 
+                        onerror="this.style.display='none'; document.getElementById('footerFallbackLogo').style.display='flex';"
+                    >
+                    
+                    <!-- Fallback Logo (CSS-drawn, only shows if image fails) -->
+                    <div id="footerFallbackLogo" class="w-10 h-10 bg-navy rounded-sm hidden items-center justify-center relative overflow-hidden">
+                        <div class="absolute w-6 h-6 bg-white transform -rotate-45 translate-x-1 -translate-y-1"></div>
+                        <div class="absolute w-3 h-3 bg-white transform rotate-45 translate-x-1 translate-y-1"></div>
+                    </div>
+                    
+                    <div>
+                        <span class="text-navy font-serif text-xl tracking-widest block leading-none font-bold">GODREJ</span>
+                        <span class="text-gold font-sans text-[9px] tracking-[0.25em] uppercase block mt-1">Altus</span>
+                    </div>
+                </div>
+                <p class="text-xs font-light leading-relaxed text-gray-500 mb-4 pr-4">
+                    Developed by Godrej Properties. A rare confluence of seamless connectivity and refined lifestyle in the heart of Vastrapur. Only 215 exclusive units.
+                </p>
+                <div class="flex gap-2">
+                    <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-600">RERA: MAA16636/240326/071131</span>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-navy font-serif text-lg mb-4">Quick Links</h4>
+                <ul class="text-xs space-y-2.5 font-light">
+                    <li><a href="#vision" class="hover:text-gold transition-colors">Why Godrej Altus</a></li>
+                    <li><a href="#amenities" class="hover:text-gold transition-colors">Amenities &amp; Masterplan</a></li>
+                    <li><a href="#residences" class="hover:text-gold transition-colors">Residences (3 &amp; 4 BHK)</a></li>
+                    <li><a href="#location" class="hover:text-gold transition-colors">Location &amp; Connectivity</a></li>
+                    <li><a href="#enquire" class="hover:text-gold transition-colors">Book a Site Visit</a></li>
+                    <li><a href="#" class="hover:text-gold transition-colors">Download Brochure</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Us -->
+            <div>
+                <h4 class="text-navy font-serif text-lg mb-4">Contact Us</h4>
+                <ul class="text-xs space-y-3 font-light">
+                    <li class="flex items-start gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <a href="tel:9099446667" class="text-navy font-medium hover:text-gold transition-colors"> +91 9099446667</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <a href="mailto:contact@godrejaltusahmedabad.co.in" class="hover:text-gold transition-colors">contact@godrejaltusahmedabad.co.in</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Request Callback -->
+            <div>
+                <h4 class="text-navy font-serif text-lg mb-4">Request Callback</h4>
+                <form class="space-y-2">
+                    <input type="text" placeholder="Your Name" class="w-full px-3 py-2 bg-offwhite border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-gray-800 text-xs rounded-sm transition-all">
+                    <input type="tel" placeholder="Phone Number" class="w-full px-3 py-2 bg-offwhite border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-gray-800 text-xs rounded-sm transition-all">
+                    <button type="submit" class="w-full bg-navy hover:bg-gold text-white font-semibold py-2.5 rounded-sm transition-colors text-[10px] tracking-widest uppercase shadow-sm">
+                        Submit Enquiry
+                    </button>
+                </form>
             </div>
         </div>
-    </section>
 
-    <!-- Location Section (Expanded) -->
-    <section id="location" class="py-24 bg-navy-dark text-white relative">
-        <div class="absolute inset-0 opacity-10 bg-texture"></div>
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-3">Unmatched Location</h2>
-                <h3 class="text-4xl md:text-5xl font-serif">Key Highlights of Vastrapur</h3>
-                <div class="w-12 h-[1px] bg-gold mx-auto mt-6"></div>
-                <p class="text-gray-400 text-sm mt-4 max-w-3xl mx-auto">Vastrapur is an educational-cum-residential hub in Ahmedabad West, offering excellent infrastructure, corporate hubs, and premium lifestyle amenities.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                <!-- Left Column -->
-                <div data-aos="fade-right">
-                    <h4 class="text-xl font-serif text-gold mb-6 border-b border-white/10 pb-2">Seamless Connectivity</h4>
-                    <ul class="space-y-4 text-sm font-light mb-10">
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">SG Highway</span>
-                            <span class="text-white font-medium">2 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">132 Ft Ring Road</span>
-                            <span class="text-white font-medium">Seamless Citywide</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Doordarshan Kendra Metro Station</span>
-                            <span class="text-white font-medium">2 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Ahmedabad Railway Station</span>
-                            <span class="text-white font-medium">Regional Access</span>
-                        </li>
-                    </ul>
-
-                    <h4 class="text-xl font-serif text-gold mb-6 border-b border-white/10 pb-2">Corporate & IT Hubs</h4>
-                    <ul class="space-y-4 text-sm font-light">
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">SG Highway Corporate Belt</span>
-                            <span class="text-white font-medium">3 - 4 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Sindhu Bhavan Road Offices</span>
-                            <span class="text-white font-medium">Within 5 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Prahlad Nagar IT Hub</span>
-                            <span class="text-white font-medium">6 km</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Right Column -->
-                <div data-aos="fade-left">
-                    <h4 class="text-xl font-serif text-gold mb-6 border-b border-white/10 pb-2">Education & Healthcare</h4>
-                    <ul class="space-y-4 text-sm font-light mb-10">
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">IIM Ahmedabad</span>
-                            <span class="text-white font-medium">Premier Institute</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Zydus School & Riverside School</span>
-                            <span class="text-white font-medium">Within 5 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Sterling & CIMS Hospitals</span>
-                            <span class="text-white font-medium">5 - 8 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Brinda Women & Sanjivani</span>
-                            <span class="text-white font-medium">Locality</span>
-                        </li>
-                    </ul>
-
-                    <h4 class="text-xl font-serif text-gold mb-6 border-b border-white/10 pb-2">Retail & Lifestyle</h4>
-                    <ul class="space-y-4 text-sm font-light">
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Ahmedabad One Mall</span>
-                            <span class="text-white font-medium">Anchors Retail</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Himalaya Mall</span>
-                            <span class="text-white font-medium">1 km</span>
-                        </li>
-                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span class="text-gray-300">Vastrapur Lakefront</span>
-                            <span class="text-white font-medium">Cafes & Dining</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Map Embed -->
-            <div class="mt-16 h-[400px] w-full rounded-sm overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-white/5 relative" data-aos="fade-up">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14681.895374266782!2d72.5003719!3d23.0359209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sVastrapur%2C%20Ahmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg) contrast(120%);" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="enquire" class="bg-white text-gray-600 font-sans pt-16 pb-8 border-t border-gray-200 relative">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-gray-200">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-navy rounded-sm flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute w-6 h-6 bg-white transform -rotate-45 translate-x-1 -translate-y-1"></div>
-                            <div class="absolute w-3 h-3 bg-white transform rotate-45 translate-x-1 translate-y-1"></div>
-                        </div>
-                        <div>
-                            <span class="text-navy font-serif text-xl tracking-widest block leading-none font-bold">GODREJ</span>
-                            <span class="text-gold font-sans text-[9px] tracking-[0.25em] uppercase block mt-1">Altus</span>
-                        </div>
-                    </div>
-                    <p class="text-xs font-light leading-relaxed text-gray-500 mb-4 pr-4">
-                        Developed by Godrej Properties. A rare confluence of seamless connectivity and refined lifestyle in the heart of Vastrapur. Only 131 exclusive units.
-                    </p>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-600">RERA: MAA16636/240326/071131</span>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-navy font-serif text-lg mb-4">Quick Links</h4>
-                    <ul class="text-xs space-y-2.5 font-light">
-                        <li><a href="#vision" class="hover:text-gold transition-colors">Why Godrej Altus</a></li>
-                        <li><a href="#amenities" class="hover:text-gold transition-colors">Amenities & Masterplan</a></li>
-                        <li><a href="#residences" class="hover:text-gold transition-colors">Residences (3 & 4 BHK)</a></li>
-                        <li><a href="#location" class="hover:text-gold transition-colors">Location & Connectivity</a></li>
-                        <li><a href="#enquire" class="hover:text-gold transition-colors">Book a Site Visit</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Download Brochure</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-navy font-serif text-lg mb-4">Contact Us</h4>
-                    <ul class="text-xs space-y-3 font-light">
-                        <li class="flex items-start gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                            <span>Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                            <a href="tel:9702053758" class="text-navy font-medium hover:text-gold transition-colors"> +91 9702053758</a>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                            <a href="mailto:referindia@yahoo.com" class="hover:text-gold transition-colors">referindia@yahoo.com</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-navy font-serif text-lg mb-4">Request Callback</h4>
-                    <form class="space-y-2">
-                        <input type="text" placeholder="Your Name" class="w-full px-3 py-2 bg-offwhite border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-gray-800 text-xs rounded-sm transition-all">
-                        <input type="tel" placeholder="Phone Number" class="w-full px-3 py-2 bg-offwhite border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-gray-800 text-xs rounded-sm transition-all">
-                        <button type="submit" class="w-full bg-navy hover:bg-gold text-white font-semibold py-2.5 rounded-sm transition-colors text-[10px] tracking-widest uppercase shadow-sm">
-                            Submit Enquiry
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="pt-6 flex flex-col text-[9px] text-gray-400">
-             
-                <div class="flex flex-col md:flex-row justify-between items-center mt-2 pt-4 border-t border-gray-100">
-                    <p>&copy; 2026 Godrej Altus. All Rights Reserved.</p>
-                    <div class="flex gap-4 mt-2 md:mt-0">
-                        <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
-                        <span>|</span>
-                        <a href="#" class="hover:text-gold transition-colors">Terms of Use</a>
-                        <span>|</span>
-                        <a href="#" class="hover:text-gold transition-colors">Sitemap</a>
-                    </div>
+        <!-- Bottom Bar -->
+        <div class="pt-6 flex flex-col text-[9px] text-gray-400">
+            <div class="flex flex-col md:flex-row justify-between items-center mt-2 pt-4 border-t border-gray-100">
+                <p>&copy; 2026 Godrej Altus. All Rights Reserved.</p>
+                <div class="flex gap-4 mt-2 md:mt-0">
+                    <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gold transition-colors">Terms of Use</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gold transition-colors">Sitemap</a>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <!-- AOS JS & Mobile Menu Logic -->
+    <!-- MOBILE RIBBON -->
+    <div class="mobile-ribbon">
+        <a href="mailto:contact@godrejaltusahmedabad.co.in" class="flex-1 flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-wider uppercase py-4 bg-navy-dark hover:bg-navy transition-colors border-r border-gold/30"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Email Us</a>
+        <a href="https://wa.me/919099446667?text=Hello%2C%20I%20am%20interested%20in%20Godrej%20Altus%2C%20Vastrapur.%20Please%20share%20more%20details." target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-wider uppercase py-4 bg-[#25D366] hover:bg-[#20b859] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
+    </div>
+
+<!-- Floating WhatsApp Button (Desktop Only) -->
+<a href="https://wa.me/919099446667?text=Enquiry%20from%20website%20%E2%80%93%20Godrej%20Altus"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Chat with us on WhatsApp"
+   class="desktop-only-whatsapp fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center 
+          bg-[#25D366] text-white rounded-full shadow-lg 
+          hover:scale-110 transition-transform duration-300">
+
+    <i class="fa-brands fa-whatsapp text-3xl"></i>
+
+</a>
+
+<style>
+    /* Hide floating WhatsApp button on mobile screens */
+    @media (max-width: 767px) {
+        .desktop-only-whatsapp {
+            display: none !important;
+        }
+    }
+</style>
+    <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS Animation
         AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
 
         // Navbar Scroll Effect
@@ -648,23 +882,20 @@
             }
         });
 
-        // --- MOBILE MENU LOGIC ---
+        // Mobile Menu Logic
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const iconOpen = document.getElementById('icon-open');
         const iconClose = document.getElementById('icon-close');
 
-        // Toggle Menu
         mobileMenuBtn.addEventListener('click', () => {
             const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
             mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-            
             mobileMenu.classList.toggle('hidden');
             iconOpen.classList.toggle('hidden');
             iconClose.classList.toggle('hidden');
         });
 
-        // Close Menu when a link is clicked
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
@@ -674,12 +905,9 @@
             });
         });
 
-        // Auto-Close Menu on Scroll (Mobile only)
         let lastScrollTop = 0;
         window.addEventListener('scroll', () => {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // If user scrolls down and menu is open, close it
             if (scrollTop > lastScrollTop && !mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.add('hidden');
                 iconOpen.classList.remove('hidden');
@@ -688,6 +916,154 @@
             }
             lastScrollTop = scrollTop;
         });
+
+        // POPUP LOGIC
+        const popupOverlay = document.getElementById('popupForm');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                popupOverlay.classList.add('active');
+            }, 800);
+        });
+
+        closePopupBtn.addEventListener('click', () => {
+            popupOverlay.classList.remove('active');
+        });
+
+        popupOverlay.addEventListener('click', (e) => {
+            if (e.target === popupOverlay) {
+                popupOverlay.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
+                popupOverlay.classList.remove('active');
+            }
+        });
+
+        // GALLERY SLIDER
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.gallery-slide');
+            const thumbnails = document.querySelectorAll('.thumbnail, .thumbnail-mobile');
+            const slideContents = document.querySelectorAll('.slide-content');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentSlideEl = document.getElementById('currentSlide');
+            const progressBar = document.getElementById('progressBar');
+            const watermarkNumber = document.getElementById('watermarkNumber');
+            
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+            let autoSlideInterval;
+            const slideDuration = 8000;
+
+            slides[0].classList.add('opacity-100');
+            slides[0].classList.remove('opacity-0');
+            slideContents[0].classList.remove('hidden');
+            slideContents[0].classList.add('active');
+            updateThumbnails(0);
+            startProgress();
+
+            function updateThumbnails(index) {
+                thumbnails.forEach((thumb) => {
+                    const thumbIndex = parseInt(thumb.getAttribute('data-index'));
+                    if (thumbIndex === index) {
+                        thumb.classList.add('border-gold');
+                        thumb.classList.remove('border-transparent');
+                    } else {
+                        thumb.classList.remove('border-gold');
+                        thumb.classList.add('border-transparent');
+                    }
+                });
+            }
+
+            function goToSlide(index) {
+                slides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.classList.remove('opacity-0');
+                        slide.classList.add('opacity-100');
+                        const img = slide.querySelector('img');
+                        img.style.transform = 'scale(1)';
+                        setTimeout(() => { img.style.transform = 'scale(1.05)'; }, 50);
+                    } else {
+                        slide.classList.add('opacity-0');
+                        slide.classList.remove('opacity-100');
+                        const img = slide.querySelector('img');
+                        img.style.transform = 'scale(1)';
+                    }
+                });
+
+                slideContents.forEach((content, i) => {
+                    if (i === index) { content.classList.remove('hidden'); content.classList.add('active'); }
+                    else { content.classList.add('hidden'); content.classList.remove('active'); }
+                });
+
+                updateThumbnails(index);
+                currentSlideEl.textContent = String(index + 1).padStart(2, '0');
+                if (watermarkNumber) watermarkNumber.textContent = String(index + 1).padStart(2, '0');
+                currentIndex = index;
+                restartProgress();
+                restartAutoSlide();
+            }
+
+            function nextSlide() { goToSlide((currentIndex + 1) % totalSlides); }
+            function prevSlide() { goToSlide((currentIndex - 1 + totalSlides) % totalSlides); }
+
+            function startProgress() {
+                progressBar.style.transition = 'none';
+                progressBar.style.width = '0%';
+                void progressBar.offsetWidth;
+                progressBar.style.transition = `width ${slideDuration}ms linear`;
+                progressBar.style.width = '100%';
+            }
+
+            function restartProgress() { startProgress(); }
+
+            function restartAutoSlide() {
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(nextSlide, slideDuration);
+            }
+
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            thumbnails.forEach((thumb) => {
+                thumb.addEventListener('click', () => {
+                    const index = parseInt(thumb.getAttribute('data-index'));
+                    goToSlide(index);
+                });
+            });
+
+            restartAutoSlide();
+
+            const sliderContainer = document.querySelector('.group');
+            sliderContainer.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+                progressBar.style.transition = 'none';
+                progressBar.style.width = progressBar.offsetWidth / progressBar.parentElement.offsetWidth * 100 + '%';
+            });
+            sliderContainer.addEventListener('mouseleave', () => {
+                startProgress();
+                restartAutoSlide();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+            });
+
+            let touchStartX = 0, touchEndX = 0;
+            sliderContainer.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+            sliderContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                if (touchStartX - touchEndX > 50) nextSlide();
+                else if (touchEndX - touchStartX > 50) prevSlide();
+            }, { passive: true });
+        });
     </script>
+
+    
 </body>
 </html>
