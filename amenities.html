@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amenities | Godrej Altus | Vastrapur, Ahmedabad</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { DEFAULT: '#2E0515', light: '#4A0A24', dark: '#1A020A' },
+                        gold: { DEFAULT: '#D91A5B', light: '#F0427E', dark: '#A60B40' },
+                        offwhite: '#F9F9F9'
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    backgroundImage: {
+                        'texture': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9F9F9; }
+        ::-webkit-scrollbar-thumb { background: #D91A5B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2E0515; }
+        .glass-nav { background: rgba(46, 5, 21, 0.9); backdrop-filter: blur(12px); }
+        .gold-text-gradient { background: linear-gradient(to right, #D91A5B, #F0427E, #D91A5B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        html, body { overflow-x: hidden; }
+
+        /* Mobile bottom ribbon */
+        .mobile-ribbon { display: none; }
+        @media (max-width: 767px) {
+            .mobile-ribbon {
+                display: flex; position: fixed; bottom: 0; left: 0; right: 0;
+                z-index: 900; background: #1A020A; border-top: 2px solid #D91A5B;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            }
+            body { padding-bottom: 64px; }
+        }
+
+        /* Decorative float */
+        @keyframes float-particle {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translateY(-150px) translateX(30px) scale(1.2); opacity: 0.8; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-300px) translateX(-20px) scale(0.8); opacity: 0; }
+        }
+        .particle { position: absolute; background: radial-gradient(circle, #F0427E, #D91A5B); border-radius: 50%; opacity: 0.4; filter: blur(0.5px); animation: float-particle linear infinite; }
+        .particle-1 { width: 4px; height: 4px; left: 10%; top: 80%; animation-duration: 12s; animation-delay: 0s; }
+        .particle-2 { width: 3px; height: 3px; left: 25%; top: 60%; animation-duration: 15s; animation-delay: 2s; }
+        .particle-3 { width: 5px; height: 5px; left: 40%; top: 90%; animation-duration: 18s; animation-delay: 4s; }
+        .particle-4 { width: 2px; height: 2px; left: 55%; top: 70%; animation-duration: 10s; animation-delay: 1s; }
+        .particle-5 { width: 4px; height: 4px; left: 70%; top: 85%; animation-duration: 14s; animation-delay: 3s; }
+        .particle-6 { width: 3px; height: 3px; left: 85%; top: 65%; animation-duration: 16s; animation-delay: 5s; }
+        .particle-7 { width: 5px; height: 5px; left: 15%; top: 40%; animation-duration: 20s; animation-delay: 6s; }
+        .particle-8 { width: 2px; height: 2px; left: 60%; top: 30%; animation-duration: 11s; animation-delay: 2.5s; }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(1); }
+            50% { opacity: 0.6; transform: translateY(-50%) scale(1.1); }
+        }
+        .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+
+        /* Amenity Card Hover Effects */
+        .amenity-card:hover .amenity-icon {
+            transform: scale(1.15) translateY(-5px) rotate(5deg);
+            color: #D91A5B;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-offwhite antialiased overflow-x-hidden selection:bg-gold selection:text-white">
+
+<!-- Navigation -->
+<nav class="fixed w-full z-50 transition-all duration-500 border-b border-white/10 glass-nav" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20 md:h-24">
+
+            <!-- Logo Area -->
+            <a href="index.html" class="flex-shrink-0 flex items-center gap-3 md:gap-4 cursor-pointer drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]">
+                <img src="/images/godrejlogo.png" alt="Godrej Altus Logo" class="h-10 md:h-14 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
+
+                <div id="fallbackLogo" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-sm hidden items-center justify-center relative overflow-hidden shadow-lg">
+                    <div class="absolute w-6 h-6 md:w-7 md:h-7 bg-navy transform -rotate-45 translate-x-2 -translate-y-2"></div>
+                    <div class="absolute w-3 h-3 md:w-3.5 md:h-3.5 bg-navy transform rotate-45 translate-x-2 translate-y-2"></div>
+                    <div class="absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-navy rounded-full -translate-y-3.5 translate-x-3.5"></div>
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <span class="text-white font-serif text-xl md:text-2xl tracking-[0.15em] block leading-none font-semibold mt-1 drop-shadow-md">GODREJ</span>
+                    <span class="text-gold font-sans text-[9px] md:text-[10px] tracking-[0.3em] uppercase block mt-1 md:mt-1.5 font-medium drop-shadow-md">Altus</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu Links -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Home</a>
+                <a href="about.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">About</a>
+                <a href="residence.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Residences</a>
+                <a href="amenities.html" class="text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Amenities</a>
+                <a href="index.html#location" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Location</a>
+
+                <a href="contact.html" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-white uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] transition-all duration-300">
+                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-20"></span>
+                    <span class="relative">Enquire Now</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobile-menu-btn" type="button" class="text-white hover:text-gold focus:outline-none p-2 drop-shadow-md" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg id="icon-open" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    <svg id="icon-close" class="h-8 w-8 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div class="md:hidden hidden bg-navy-dark border-t border-white/10 shadow-2xl transition-all duration-300" id="mobile-menu">
+        <div class="px-4 pt-4 pb-6 space-y-2">
+            <a href="/index.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Home</a>
+            <a href="/about_us.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">About</a>
+            <a href="/residence.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Residences</a>
+            <a href="/amenities.html" class="mobile-link block px-4 py-3 text-base font-medium text-gold bg-white/5 rounded-md transition-colors">Amenities</a>
+            <a href="/contact.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Location</a>
+
+            <div class="pt-4 mt-2 border-t border-white/10">
+                <a href="/contact.html" class="mobile-link w-full flex items-center justify-center px-6 py-4 text-sm font-bold tracking-[0.15em] text-white uppercase bg-gold rounded-sm shadow-[0_0_15px_rgba(217,26,91,0.3)]">
+                    Enquire Now
+                </a>
+            </div>
+
+            <div class="pt-4 text-center space-y-3">
+                <a href="tel:9099446667" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                    Call: 9099446667
+                </a>
+                <a href="mailto:contact@godrejaltusahmedabad.co.in" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    contact@godrejaltusahmedabad.co.in
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== AMENITIES HERO — DARK EDITORIAL SPLIT ========== -->
+<section class="relative bg-navy-dark min-h-[60vh] flex items-center pt-28 md:pt-32 pb-16 overflow-hidden">
+    <!-- Background texture & glow -->
+    <div class="absolute inset-0 opacity-[0.08] bg-texture pointer-events-none"></div>
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gold/[0.08] rounded-full blur-[140px] pointer-events-none animate-pulse-slow"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold/[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Large decorative serif letter (A) -->
+    <div class="absolute -right-16 top-1/2 -translate-y-1/2 text-[26rem] md:text-[36rem] font-serif text-white/[0.03] leading-none select-none pointer-events-none">A</div>
+
+    <!-- Floating particles -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="particle particle-1"></div><div class="particle particle-2"></div><div class="particle particle-3"></div><div class="particle particle-4"></div>
+        <div class="particle particle-5"></div><div class="particle particle-6"></div><div class="particle particle-7"></div><div class="particle particle-8"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 text-center">
+        <div class="flex items-center justify-center gap-3 mb-8" data-aos="fade-down" data-aos-duration="900">
+            <span class="w-8 h-[1px] bg-gold"></span>
+            <span class="text-[10px] tracking-[0.35em] uppercase text-gold font-semibold">Curated Experiences</span>
+            <span class="w-8 h-[1px] bg-gold"></span>
+        </div>
+
+        <h1 class="font-serif text-white leading-[0.92] mb-7" data-aos="fade-up" data-aos-duration="1100" data-aos-delay="100">
+            <span class="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem]">A World of</span>
+            <span class="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] italic gold-text-gradient">Leisure.</span>
+        </h1>
+
+        <p class="text-gray-300 text-base md:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-9" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+            Over ~1858 sq. mt. (~20,000 sq. ft.) of Clubhouse &amp; Terrace Amenities including a 10,000 sq. ft. courtyard, designed to elevate every moment of your day.
+        </p>
+    </div>
+</section>
+
+    <!-- ========== FEATURED AMENITY — THE COURTYARD (LAP POOL) ========== -->
+    <section class="relative py-20 md:py-28 bg-offwhite overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4=')] pointer-events-none"></div>
+        <div class="absolute -right-40 top-20 text-[25rem] font-serif text-navy/[0.04] leading-none select-none pointer-events-none">01</div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                
+                <!-- Text (Fades in from Left) -->
+                <div class="order-2 lg:order-1" data-aos="fade-right" data-aos-duration="1200" data-aos-delay="200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-[1px] bg-gold"></span>
+                        <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase">The Courtyard</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif text-navy leading-tight mb-6">Tranquil <br><span class="italic gold-text-gradient">Lap Pool</span></h2>
+                    <p class="text-gray-500 text-sm md:text-base font-light leading-relaxed mb-6">
+                        A serene retreat where still waters mirror the sky, offering a private oasis of calm and reflection. The open-air courtyard and jacuzzi provide the perfect setting to unwind after a long day.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-gray-600 font-light" data-aos="fade-right" data-aos-delay="300"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Open-Air Courtyard</li>
+                        <li class="flex items-center gap-3 text-sm text-gray-600 font-light" data-aos="fade-right" data-aos-delay="400"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Temperature-Controlled Lap Pool</li>
+                        <li class="flex items-center gap-3 text-sm text-gray-600 font-light" data-aos="fade-right" data-aos-delay="500"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span> Adjacent Jacuzzi &amp; Sun Deck</li>
+                    </ul>
+                    <div class="inline-flex items-center gap-3 text-navy font-semibold text-xs tracking-[0.2em] uppercase" data-aos="fade-right" data-aos-delay="600">
+                        <span class="w-8 h-8 rounded-full border border-navy/20 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </span>
+                        Experience it in person
+                    </div>
+                </div>
+
+                <!-- Image (Slides in from Right with Zoom) -->
+                <div class="order-1 lg:order-2 relative" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+                    <div class="absolute -top-4 -left-4 md:-top-5 md:-left-5 w-full h-full border border-gold/40 rounded-sm pointer-events-none" data-aos="zoom-in" data-aos-delay="400"></div>
+                    <div class="relative overflow-hidden rounded-sm shadow-[0_25px_60px_rgba(46,5,21,0.25)] group" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Lap Pool" class="w-full h-[400px] md:h-[500px] object-cover transition-all duration-1000 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/40 via-transparent to-transparent"></div>
+                        <div class="absolute inset-3 border border-white/20 rounded-sm"></div>
+                        <div class="absolute top-3 left-3 w-6 h-6 border-t border-l border-gold/70"></div>
+                        <div class="absolute top-3 right-3 w-6 h-6 border-t border-r border-gold/70"></div>
+                        <div class="absolute bottom-3 left-3 w-6 h-6 border-b border-l border-gold/70"></div>
+                        <div class="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-gold/70"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== THE FULL AMENITIES GRID ========== -->
+    <section id="amenities-grid" class="py-20 md:py-32 bg-navy relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-texture"></div>
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="w-8 md:w-12 h-[1px] bg-gold/40"></span>
+                    <h2 class="text-gold text-[10px] font-bold tracking-[0.4em] uppercase">Curated Experiences</h2>
+                    <span class="w-8 md:w-12 h-[1px] bg-gold/40"></span>
+                </div>
+                <h3 class="text-4xl md:text-5xl font-serif text-white leading-tight" data-aos="fade-up" data-aos-delay="100">A World of Leisure, <span class="italic text-gold">Privately Held</span></h3>
+            </div>
+
+            <!-- Staggered Grid with Flip Animations -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                
+                <!-- Tile 01 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="50">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Private Mini Theatre</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Exclusive Screenings</p>
+                    </div>
+                </div>
+
+                <!-- Tile 02 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="100">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Padel Court</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Rooftop Recreation</p>
+                    </div>
+                </div>
+
+                <!-- Tile 03 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="150">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Lap Pool &amp; Jacuzzi</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open-Air Courtyard</p>
+                    </div>
+                </div>
+
+                <!-- Tile 04 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Sky Hub &amp; Star Gazing</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Starlit Evenings</p>
+                    </div>
+                </div>
+
+                <!-- Tile 05 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="250">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Sky Meditation Deck</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Tranquil Retreat</p>
+                    </div>
+                </div>
+
+                <!-- Tile 06 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Reading Cove &amp; Library</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Curated Collection</p>
+                    </div>
+                </div>
+
+                <!-- Tile 07 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="350">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Kids' Play &amp; Crèche</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Family Time</p>
+                    </div>
+                </div>
+
+                <!-- Tile 08 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="400">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">BBQ Deck &amp; Amphitheatre</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Evening Soirees</p>
+                    </div>
+                </div>
+
+                <!-- Tile 09 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="450">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Kite Flying Plaza</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open Skies</p>
+                    </div>
+                </div>
+
+                <!-- Tile 10 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="500">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Gazeebo &amp; Pebble Plaza</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Landscaped Calm</p>
+                    </div>
+                </div>
+
+                <!-- Tile 11 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="550">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Wellness Zone &amp; Spa</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Restorative Care</p>
+                    </div>
+                </div>
+
+                <!-- Tile 12 -->
+                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="600">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-16 transition-all duration-500"></div>
+                    <div class="p-8 md:p-10 flex flex-col items-center text-center">
+                        <div class="relative w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                            <svg class="w-9 h-9 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-2">Multipurpose Hall &amp; Sky Lounge</h4>
+                        <p class="text-[11px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Celebrations</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA — DARK SECTION ========== -->
+    <section class="py-16 md:py-24 bg-navy-dark relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.07] bg-texture pointer-events-none"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10" data-aos="zoom-in-up" data-aos-duration="1000">
+            <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-4">Experience it in Person</h2>
+            <h3 class="text-3xl md:text-5xl font-serif text-white leading-tight mb-6" data-aos="fade-up" data-aos-delay="200">Step Inside <br>Godrej Altus.</h3>
+            <p class="text-gray-400 text-sm md:text-base font-light max-w-xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="300">Schedule a private tour to explore the amenities that make every day feel like a retreat.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
+                <a href="#enquire" class="group relative overflow-hidden bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white px-10 py-4 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 shadow-[0_10px_40px_rgba(217,26,91,0.4)] hover:shadow-[0_15px_50px_rgba(217,26,91,0.6)] hover:-translate-y-0.5">
+                    <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+                    <span class="relative z-10">Book a Site Visit</span>
+                </a>
+                <a href="tel:9099446667" class="border border-white/30 hover:border-gold hover:bg-white/5 text-white px-10 py-4 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                    Call 9099446667
+                </a>
+            </div>
+        </div>
+    </section>
+
+<!-- FOOTER -->
+<footer id="enquire" class="bg-white text-gray-600 font-sans pt-16 pb-8 border-t border-gray-200 relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-gray-200">
+
+            <!-- Logo & About -->
+            <div data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="/images/godrejlogo.png" alt="Godrej Altus Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('footerFallbackLogo').style.display='flex';">
+                    <div id="footerFallbackLogo" class="w-10 h-10 bg-navy rounded-sm hidden items-center justify-center relative overflow-hidden">
+                        <div class="absolute w-6 h-6 bg-white transform -rotate-45 translate-x-1 -translate-y-1"></div>
+                        <div class="absolute w-3 h-3 bg-white transform rotate-45 translate-x-1 translate-y-1"></div>
+                    </div>
+                    <div>
+                        <span class="text-navy font-serif text-xl tracking-widest block leading-none font-bold">GODREJ</span>
+                        <span class="text-gold font-sans text-[9px] tracking-[0.25em] uppercase block mt-1">Altus</span>
+                    </div>
+                </div>
+                <p class="text-xs font-light leading-relaxed text-gray-500 mb-4 pr-4">
+                    Developed by Godrej Properties. A rare confluence of seamless connectivity and refined lifestyle in the heart of Vastrapur. Only 215 exclusive units.
+                </p>
+                <div class="flex gap-2">
+                    <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-600">RERA: MAA16636/240326/071131</span>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div data-aos="fade-up" data-aos-delay="200">
+                <h4 class="text-navy font-serif text-lg mb-4">Quick Links</h4>
+                <ul class="text-xs space-y-2.5 font-light">
+                    <li><a href="about.html" class="hover:text-gold transition-colors">About Godrej Altus</a></li>
+                    <li><a href="amenities.html" class="hover:text-gold transition-colors">Amenities &amp; Masterplan</a></li>
+                    <li><a href="index.html#residences" class="hover:text-gold transition-colors">Residences (3 &amp; 4 BHK)</a></li>
+                    <li><a href="index.html#location" class="hover:text-gold transition-colors">Location &amp; Connectivity</a></li>
+                    <li><a href="#enquire" class="hover:text-gold transition-colors">Book a Site Visit</a></li>
+                    <li><a href="#" class="hover:text-gold transition-colors">Download Brochure</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Us -->
+            <div data-aos="fade-up" data-aos-delay="300">
+                <h4 class="text-navy font-serif text-lg mb-4">Contact Us</h4>
+                <ul class="text-xs space-y-3 font-light">
+                    <li class="flex items-start gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Plot No. 99, Besides GMDC,<br>Vastrapur, Ahmedabad</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <a href="tel:9099446667" class="text-navy font-medium hover:text-gold transition-colors"> +91 9099446667</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <a href="mailto:contact@godrejaltusahmedabad.co.in" class="hover:text-gold transition-colors">contact@godrejaltusahmedabad.co.in</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Request Callback -->
+            <div data-aos="fade-up" data-aos-delay="400">
+                <h4 class="text-navy font-serif text-lg mb-4">Request Callback</h4>
+                <form class="space-y-2">
+                    <input type="text" placeholder="Your Name" class="w-full px-3 py-2 bg-offwhite border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-gray-800 text-xs rounded-sm transition-all">
+                    <input type="tel" placeholder="Phone Number" class="w-full px-3 py-2 bg-offwhite border border-gray-200 focus:border-gold focus:ring-1 focus:ring-gold outline-none text-gray-800 text-xs rounded-sm transition-all">
+                    <button type="submit" class="w-full bg-navy hover:bg-gold text-white font-semibold py-2.5 rounded-sm transition-colors text-[10px] tracking-widest uppercase shadow-sm">
+                        Submit Enquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="pt-6 flex flex-col text-[9px] text-gray-400">
+            <div class="flex flex-col md:flex-row justify-between items-center mt-2 pt-4 border-t border-gray-100">
+                <p>&copy; 2026 Godrej Altus. All Rights Reserved.</p>
+                <div class="flex gap-4 mt-2 md:mt-0">
+                    <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gold transition-colors">Terms of Use</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gold transition-colors">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <!-- MOBILE RIBBON -->
+    <div class="mobile-ribbon">
+        <a href="mailto:contact@godrejaltusahmedabad.co.in" class="flex-1 flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-wider uppercase py-4 bg-navy-dark hover:bg-navy transition-colors border-r border-gold/30"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Email Us</a>
+        <a href="https://wa.me/919099446667?text=Hello%2C%20I%20am%20interested%20in%20Godrej%20Altus%2C%20Vastrapur.%20Please%20share%20more%20details." target="_blank" rel="noopener noreferrer" class="flex-1 flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-wider uppercase py-4 bg-[#25D366] hover:bg-[#20b859] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
+    </div>
+
+<!-- Floating WhatsApp Button (Desktop Only) -->
+<a href="https://wa.me/919099446667?text=Enquiry%20from%20website%20%E2%80%93%20Godrej%20Altus"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Chat with us on WhatsApp"
+   class="desktop-only-whatsapp fixed bottom-6 right-6 z-50 w-14 h-14 flex items-center justify-center 
+          bg-[#25D366] text-white rounded-full shadow-lg 
+          hover:scale-110 transition-transform duration-300">
+
+    <i class="fa-brands fa-whatsapp text-3xl"></i>
+
+</a>
+
+<style>
+    @media (max-width: 767px) {
+        .desktop-only-whatsapp { display: none !important; }
+    }
+</style>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-[0_10px_30px_rgba(0,0,0,0.1)]');
+            } else {
+                navbar.classList.remove('shadow-[0_10px_30px_rgba(0,0,0,0.1)]');
+            }
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('icon-open');
+        const iconClose = document.getElementById('icon-close');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+</html>

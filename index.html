@@ -177,17 +177,17 @@
             </div>
             <div class="px-6 pt-4 pb-5">
                 <p class="text-gray-500 text-[10px] text-center font-light leading-relaxed mb-4 tracking-wide">Share your details to receive the private brochure &amp; pre-launch pricing.</p>
-                <form id="popupEnquiryForm" class="space-y-3" onsubmit="event.preventDefault(); alert('Thank you! Our team will contact you shortly.'); document.getElementById('popupForm').classList.remove('active');">
-                    <div><label class="premium-label" for="popupName">Full Name</label><input id="popupName" type="text" placeholder="Your full name" required class="premium-input"></div>
-                    <div><label class="premium-label" for="popupPhone">Phone Number</label><input id="popupPhone" type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
-                    <div><label class="premium-label" for="popupEmail">Email Address</label><input id="popupEmail" type="email" placeholder="you@example.com" required class="premium-input"></div>
-                    <div><label class="premium-label" for="popupConfig">Configuration</label><select id="popupConfig" class="premium-select"><option value="" disabled selected>Select residence</option><option>3 BHK Premium</option><option>4 BHK Luxury</option><option>4 BHK Premium</option></select></div>
-                    <div class="pt-1">
-                        <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3 rounded-sm transition-all duration-300 text-[10px] tracking-[0.22em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
-                            <span class="relative z-10 flex items-center justify-center gap-1.5">Request Private Access<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></span>
-                        </button>
-                    </div>
-                </form>
+                <form id="popupEnquiryForm" class="whatsappBookingForm space-y-3" onsubmit="event.preventDefault(); document.getElementById('popupForm').classList.remove('active');">
+    <div><label class="premium-label" for="popupName">Full Name</label><input id="popupName" name="name" type="text" placeholder="Your full name" required class="premium-input"></div>
+    <div><label class="premium-label" for="popupPhone">Phone Number</label><input id="popupPhone" name="phone" type="tel" placeholder="+91 00000 00000" required class="premium-input"></div>
+    <div><label class="premium-label" for="popupEmail">Email Address</label><input id="popupEmail" name="email" type="email" placeholder="you@example.com" required class="premium-input"></div>
+    <div><label class="premium-label" for="popupConfig">Configuration</label><select id="popupConfig" name="config" class="premium-select"><option value="" disabled selected>Select residence</option><option>3 BHK Premium</option><option>4 BHK Luxury</option><option>4 BHK Premium</option></select></div>
+    <div class="pt-1">
+        <button type="submit" class="btn-gold-shimmer w-full relative bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white font-bold py-3 rounded-sm transition-all duration-300 text-[10px] tracking-[0.22em] uppercase shadow-[0_8px_24px_rgba(217,26,91,0.35)] hover:shadow-[0_12px_32px_rgba(217,26,91,0.5)] hover:-translate-y-0.5">
+            <span class="relative z-10 flex items-center justify-center gap-1.5">Request Private Access<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></span>
+        </button>
+    </div>
+</form>
                 <div class="mt-3 pt-2.5 border-t border-gold/10 flex items-center justify-center gap-3">
                     <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg><span class="text-[8px] text-gray-400 tracking-wider uppercase font-medium">Confidential</span></div>
                     <span class="w-px h-2.5 bg-gray-200"></span>
@@ -203,7 +203,7 @@
         <div class="flex justify-between items-center h-20 md:h-24">
             
             <!-- Logo Area with subtle glow to ensure visibility on transparent navbar -->
-            <div class="flex-shrink-0 flex items-center gap-3 md:gap-4 cursor-pointer drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]">
+            <a href="#" class="flex-shrink-0 flex items-center gap-3 md:gap-4 cursor-pointer drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]">
                 <img src="/images/godrejlogo.png" alt="Godrej Altus Logo" class="h-10 md:h-14 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';">
                 
                 <div id="fallbackLogo" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-sm hidden items-center justify-center relative overflow-hidden shadow-lg">
@@ -216,16 +216,17 @@
                     <span class="text-white font-serif text-xl md:text-2xl tracking-[0.15em] block leading-none font-semibold mt-1 drop-shadow-md">GODREJ</span>
                     <span class="text-gold font-sans text-[9px] md:text-[10px] tracking-[0.3em] uppercase block mt-1 md:mt-1.5 font-medium drop-shadow-md">Altus</span>
                 </div>
-            </div>
+            </a>
 
             <!-- Desktop Menu Links -->
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="#vision" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Vision</a>
-                <a href="#pricing" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Pricing</a>
-                <a href="#amenities" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Amenities</a>
-                <a href="#location" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Location</a>
+                <a href="/" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Home</a>
+                <a href="/about_us.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">About</a>
+                <a href="/residence.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Residences</a>
+                <a href="/amenities.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Amenities</a>
+                <a href="/contact.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Location</a>
                 
-                <a href="#enquire" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-white uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] transition-all duration-300">
+                <a href="/contact.html" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-white uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] transition-all duration-300">
                     <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-20"></span>
                     <span class="relative">Enquire Now</span>
                 </a>
@@ -245,13 +246,14 @@
     <!-- Mobile Menu Dropdown -->
     <div class="md:hidden hidden bg-navy-dark border-t border-white/10 shadow-2xl transition-all duration-300" id="mobile-menu">
         <div class="px-4 pt-4 pb-6 space-y-2">
-            <a href="#vision" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Vision</a>
-            <a href="#pricing" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Pricing</a>
-            <a href="#amenities" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Amenities</a>
-            <a href="#location" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Location</a>
+            <a href="/" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Home</a>
+            <a href="/about_us.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">About</a>
+            <a href="/residence.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Residences</a>
+            <a href="/amenities.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Amenities</a>
+            <a href="/contact.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Location</a>
             
             <div class="pt-4 mt-2 border-t border-white/10">
-                <a href="#enquire" class="mobile-link w-full flex items-center justify-center px-6 py-4 text-sm font-bold tracking-[0.15em] text-white uppercase bg-gold rounded-sm shadow-[0_0_15px_rgba(217,26,91,0.3)]">
+                <a href="/contact.html" class="mobile-link w-full flex items-center justify-center px-6 py-4 text-sm font-bold tracking-[0.15em] text-white uppercase bg-gold rounded-sm shadow-[0_0_15px_rgba(217,26,91,0.3)]">
                     Enquire Now
                 </a>
             </div>
@@ -343,194 +345,204 @@
         </div>
     </section>
 
+<!-- AMENITIES (Home Page Teaser - No Images) -->
+<section id="amenities" class="py-24 bg-navy text-white relative overflow-hidden">
+    <!-- Background Texture & Glows -->
+    <div class="absolute inset-0 opacity-10 bg-texture"></div>
+    <div class="absolute -top-20 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow"></div>
+    <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
 
-    <!-- AMENITIES -->
-     <section id="amenities" class="py-24 bg-navy text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-texture"></div>
-        <div class="absolute -top-20 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow"></div>
-        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase mb-3">Curated Experiences</h2>
-                <h3 class="text-4xl md:text-5xl font-serif">A World of Leisure, Privately Held</h3>
-                <div class="w-12 h-[1px] bg-gold mx-auto mt-6"></div>
-                <p class="text-gray-400 text-sm mt-4 max-w-2xl mx-auto">Over ~1858 sq. mt. (~20,000 sq. ft.) of Clubhouse &amp; Terrace Amenities including a 10,000 sq. ft. courtyard.</p>
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        
+        <!-- Premium Header -->
+        <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="1000">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <span class="w-8 md:w-12 h-[1px] bg-gold/40"></span>
+                <h2 class="text-gold text-xs font-bold tracking-[0.3em] uppercase">Curated Experiences</h2>
+                <span class="w-8 md:w-12 h-[1px] bg-gold/40"></span>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5 text-center">
-                <!-- Tile 01 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="50">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Private Mini Theatre</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Exclusive Screenings</p>
-                    </div>
-                </div>
-                <!-- Tile 02 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Padel Court</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Rooftop Recreation</p>
-                    </div>
-                </div>
-                <!-- Tile 03 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="150">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Lap Pool &amp; Jacuzzi</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open-Air Courtyard</p>
-                    </div>
-                </div>
-                <!-- Tile 04 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Sky Hub &amp; Star Gazing</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Starlit Evenings</p>
-                    </div>
-                </div>
-                <!-- Tile 05 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="250">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Sky Meditation Deck</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Tranquil Retreat</p>
-                    </div>
-                </div>
-                <!-- Tile 06 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Reading Cove &amp; Library</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Curated Collection</p>
-                    </div>
-                </div>
-                <!-- Tile 07 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="350">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Kids' Play &amp; Crèche</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Family Time</p>
-                    </div>
-                </div>
-                <!-- Tile 08 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">BBQ Deck &amp; Amphitheatre</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Evening Soirees</p>
-                    </div>
-                </div>
-                <!-- Tile 09 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="450">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Kite Flying Plaza</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open Skies</p>
-                    </div>
-                </div>
-                <!-- Tile 10 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Gazeebo &amp; Pebble Plaza</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Landscaped Calm</p>
-                    </div>
-                </div>
-                <!-- Tile 11 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="550">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Wellness Zone &amp; Spa</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Restorative Care</p>
-                    </div>
-                </div>
-                <!-- Tile 12 -->
-                <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/[0.02] to-transparent rounded-sm"></div>
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-gold/20 via-transparent to-gold/10 rounded-sm"></div>
-                    <div class="absolute top-0 left-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute top-0 left-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="absolute bottom-0 right-0 w-0 h-[1px] bg-gold group-hover:w-full transition-all duration-500 delay-100"></div>
-                    <div class="absolute bottom-0 right-0 w-[1px] h-0 bg-gold group-hover:h-full transition-all duration-500 delay-200"></div>
-                    <div class="relative z-10 p-6 border border-white/[0.06] rounded-sm bg-navy-dark/20 backdrop-blur-sm group-hover:border-transparent transition-colors duration-500">
-                        <div class="relative w-12 h-12 mx-auto mb-4 flex items-center justify-center"><div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div><svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:text-gold group-hover:rotate-[10deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></div>
-                        <h4 class="text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide">Multipurpose Hall &amp; Sky Lounge</h4>
-                        <p class="text-[9px] text-gray-500 mt-1.5 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Celebrations</p>
-                    </div>
-                </div>
-            </div>
+            <h3 class="text-4xl md:text-5xl font-serif leading-tight">A World of Leisure, <br class="hidden md:block"><span class="italic text-gold">Privately Held</span></h3>
+            <p class="text-gray-400 text-sm mt-4 max-w-2xl mx-auto font-light tracking-wide">Over ~1858 sq. mt. (~20,000 sq. ft.) of Clubhouse &amp; Terrace Amenities including a 10,000 sq. ft. courtyard.</p>
         </div>
-    </section>
 
- <!-- RESIDENCES -->
-    <section id="residences" class="py-20 md:py-32 bg-white relative overflow-hidden">
+        <!-- Premium Grid (No Images) -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5 text-center mb-16">
+            
+            <!-- Tile 01 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="50">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Private Mini Theatre</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Exclusive Screenings</p>
+                </div>
+            </div>
+
+            <!-- Tile 02 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Padel Court</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Rooftop Recreation</p>
+                </div>
+            </div>
+
+            <!-- Tile 03 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="150">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Lap Pool &amp; Jacuzzi</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open-Air Courtyard</p>
+                </div>
+            </div>
+
+            <!-- Tile 04 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Sky Hub &amp; Star Gazing</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Starlit Evenings</p>
+                </div>
+            </div>
+
+            <!-- Tile 05 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="250">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Sky Meditation Deck</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Tranquil Retreat</p>
+                </div>
+            </div>
+
+            <!-- Tile 06 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="300">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Reading Cove &amp; Library</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Curated Collection</p>
+                </div>
+            </div>
+
+            <!-- Tile 07 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="350">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Kids' Play &amp; Crèche</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Family Time</p>
+                </div>
+            </div>
+
+            <!-- Tile 08 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="400">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">BBQ Deck &amp; Amphitheatre</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Evening Soirees</p>
+                </div>
+            </div>
+
+            <!-- Tile 09 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="450">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Kite Flying Plaza</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Open Skies</p>
+                </div>
+            </div>
+
+            <!-- Tile 10 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="500">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Gazeebo &amp; Pebble Plaza</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Landscaped Calm</p>
+                </div>
+            </div>
+
+            <!-- Tile 11 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="550">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Wellness Zone &amp; Spa</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Restorative Care</p>
+                </div>
+            </div>
+
+            <!-- Tile 12 -->
+            <div class="amenity-card group relative rounded-sm overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-2 bg-white/[0.04] border border-white/[0.08] hover:border-gold/60 hover:bg-white/[0.08] hover:shadow-[0_15px_35px_rgba(0,0,0,0.4)]" data-aos="fade-up" data-aos-delay="600">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gold group-hover:w-12 transition-all duration-500"></div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="relative w-14 h-14 mx-auto mb-4 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+                        <svg class="w-8 h-8 text-gold/70 amenity-icon relative z-10 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-semibold text-white group-hover:text-gold transition-colors duration-300 tracking-wide mb-1">Multipurpose Hall &amp; Sky Lounge</h4>
+                    <p class="text-[9px] text-gray-400 tracking-[0.15em] uppercase group-hover:text-gold/70 transition-colors duration-300">Celebrations</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Premium CTA to Amenities Page -->
+        <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+            <a href="amenities.html" class="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden text-xs font-bold tracking-[0.2em] text-white uppercase bg-gold rounded-sm shadow-[0_10px_40px_rgba(217,26,91,0.4)] hover:shadow-[0_15px_50px_rgba(217,26,91,0.6)] transition-all duration-300 hover:-translate-y-1">
+                <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent"></span>
+                <span class="relative z-10 flex items-center gap-3">
+                    Discover All Amenities
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+     <!-- RESIDENCES -->
+<section id="residences" class="py-20 md:py-32 bg-white relative overflow-hidden">
         <div class="absolute -right-40 top-20 text-[20rem] md:text-[30rem] font-serif text-navy/[0.03] leading-none select-none pointer-events-none">R</div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-12 md:mb-20" data-aos="fade-up">
