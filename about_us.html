@@ -149,10 +149,13 @@
                 <a href="/amenities.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Amenities</a>
                 <a href="/contact.html" class="text-gray-300 hover:text-gold transition-colors text-xs uppercase tracking-[0.15em] font-medium drop-shadow-sm">Location</a>
 
-                <a href="/contact.html" class="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-white uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] transition-all duration-300">
-                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-20"></span>
-                    <span class="relative">Enquire Now</span>
-                </a>
+               <a href="tel:+919099446667" class="relative inline-flex items-center justify-center gap-2 px-8 py-3 overflow-hidden text-xs font-semibold tracking-[0.15em] text-white uppercase bg-gold rounded-sm group shadow-[0_0_20px_rgba(217,26,91,0.4)] hover:shadow-[0_0_30px_rgba(217,26,91,0.6)] transition-all duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 relative z-10" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+    </svg>
+    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-20"></span>
+    <span class="relative">+91 90994 46667</span>
+</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -175,11 +178,7 @@
             <a href="/amenities.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Amenities</a>
             <a href="/contact.html" class="mobile-link block px-4 py-3 text-base font-medium text-gray-300 hover:text-gold hover:bg-white/5 rounded-md transition-colors">Location</a>
 
-            <div class="pt-4 mt-2 border-t border-white/10">
-                <a href="/contact.html" class="mobile-link w-full flex items-center justify-center px-6 py-4 text-sm font-bold tracking-[0.15em] text-white uppercase bg-gold rounded-sm shadow-[0_0_15px_rgba(217,26,91,0.3)]">
-                    Enquire Now
-                </a>
-            </div>
+            
 
             <div class="pt-4 text-center space-y-3">
                 <a href="tel:9099446667" class="text-white font-medium text-sm hover:text-gold transition-colors flex items-center justify-center gap-2">
@@ -762,41 +761,91 @@
 
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
+   <script>
+    AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
 
-        // Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-[0_10px_30px_rgba(0,0,0,0.1)]');
-            } else {
-                navbar.classList.remove('shadow-[0_10px_30px_rgba(0,0,0,0.1)]');
+    // Navbar Scroll Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('shadow-[0_10px_30px_rgba(0,0,0,0.1)]');
+        } else {
+            navbar.classList.remove('shadow-[0_10px_30px_rgba(0,0,0,0.1)]');
+        }
+    });
+
+    // Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    function closeMobileMenu() {
+        mobileMenu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function openMobileMenu() {
+        mobileMenu.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    mobileMenuBtn.addEventListener('click', () => {
+        const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+        isExpanded ? closeMobileMenu() : openMobileMenu();
+    });
+
+    // Close menu on ANY link click inside the dropdown (nav links, tel:, mailto:)
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Close menu when clicking outside the navbar
+    document.addEventListener('click', (e) => {
+        if (!mobileMenu.classList.contains('hidden') &&
+            !mobileMenu.contains(e.target) &&
+            !mobileMenuBtn.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close menu on scroll (the fix you asked for)
+    let menuScrollTicking = false;
+    window.addEventListener('scroll', () => {
+        if (mobileMenu.classList.contains('hidden')) return;
+        if (!menuScrollTicking) {
+            window.requestAnimationFrame(() => {
+                closeMobileMenu();
+                menuScrollTicking = false;
+            });
+            menuScrollTicking = true;
+        }
+    }, { passive: true });
+
+    // Close menu on resize to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) closeMobileMenu();
+    });
+
+    // Smooth scroll for unit links
+    document.querySelectorAll('a[href^="#unit-"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const offset = 100;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = target.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
         });
-
-        // Mobile Menu Logic
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const iconOpen = document.getElementById('icon-open');
-        const iconClose = document.getElementById('icon-close');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-            mobileMenu.classList.toggle('hidden');
-            iconOpen.classList.toggle('hidden');
-            iconClose.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                iconOpen.classList.remove('hidden');
-                iconClose.classList.add('hidden');
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
